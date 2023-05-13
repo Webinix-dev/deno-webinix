@@ -23,7 +23,7 @@ This [text editor example](https://github.com/webinix-dev/deno-webinix/tree/main
 
 ## Installation
 
-`pip install webinix2`
+`import * as webinix from "https://deno.land/x/webinix@latest/mod.ts";`
 
 ## Minimal Example
 

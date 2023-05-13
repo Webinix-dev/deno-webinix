@@ -3,7 +3,7 @@
 // deno run --allow-all --unstable hello_world.ts
 
 // Import Webinix module (Local file)
-import * as webinix from "./webinix.ts";
+import { webinix } from "../mod.ts";
 
 // Optional - Set a custom library path:
 //  const lib_full_path = 'webinix-2-x64.dll';
