@@ -23,11 +23,13 @@ This [text editor example](https://github.com/webinix-dev/deno-webinix/tree/main
 
 ## Installation
 
-`import * as webinix from "https://deno.land/x/webinix@latest/mod.ts";`
+`import * as webinix from "https://deno.land/x/webinix@2.3.0/mod.ts";`
 
 ## Minimal Example
 
 ```js
+import * as webinix from "https://deno.land/x/webinix@2.3.0/mod.ts";
+
 const my_window = webinix.new_window();
 webinix.show(my_window, "<html>Hello World</html>");
 await webinix.wait();
