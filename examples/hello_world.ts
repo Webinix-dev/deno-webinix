@@ -88,7 +88,7 @@ const my_window = webinix.newWindow();
 
 // Bind
 webinix.bind(my_window, "Calculate", calculate);
-webinix.bind(my_window, "Exit", function (e: webinix.Event) {
+webinix.bind(my_window, "Exit", function (_e: webinix.Event) {
   // Close all windows and exit
   webinix.exit();
 });
