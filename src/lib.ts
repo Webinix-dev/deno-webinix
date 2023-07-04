@@ -1,4 +1,4 @@
-import { webinixd2Darwin, webinixd2Linux, webinixd2Windows } from "../deps.ts";
+import { webinix2Darwin, webinix2Linux, webinix2Windows } from "../deps.ts";
 import { b64ToBuffer, writeLib } from "./utils.ts";
 export async function loadLib(libPath?: string) {
   // Determine the library name based
@@ -15,14 +15,14 @@ export async function loadLib(libPath?: string) {
   })();
 
   const libBuffer = (() => {
-    if (libPath !== undefined) {
+    if (libPath === undefined) {
       switch (Deno.build.os) {
         case "windows":
-          return b64ToBuffer(webinixd2Windows.b64);
+          return b64ToBuffer(webinix2Windows.b64);
         case "darwin":
-          return b64ToBuffer(webinixd2Darwin.b64);
+          return b64ToBuffer(webinix2Darwin.b64);
         default:
-          return b64ToBuffer(webinixd2Linux.b64);
+          return b64ToBuffer(webinix2Linux.b64);
       }
     }
     return new Uint8Array();

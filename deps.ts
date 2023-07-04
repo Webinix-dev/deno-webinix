@@ -1,19 +1,19 @@
 //Preload lib files statically
 export {
   //@ts-ignore ejm serve { b64: string }
-  default as webinixd2Windows,
+  default as webinix2Windows,
 } from "https://ejm.sh/deno.land/x/webinix@2.3.0/src/webinix-2-x64.dll" assert {
   type: "json",
 };
 export {
   //@ts-ignore ejm serve { b64: string }
-  default as webinixd2Linux,
+  default as webinix2Linux,
 } from "https://ejm.sh/deno.land/x/webinix@2.3.0/src/webinix-2-x64.so" assert {
   type: "json",
 };
 export {
   //@ts-ignore ejm serve { b64: string }
-  default as webinixd2Darwin,
+  default as webinix2Darwin,
 } from "https://ejm.sh/deno.land/x/webinix@2.3.0/src/webinix-2-x64.dyn" assert {
   type: "json",
 };
