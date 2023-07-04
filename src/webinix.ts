@@ -87,14 +87,14 @@ export class WebUi {
    *  ```ts
    * const webinix = new WebUi()
    * //Show the current time
-   * webinix.showBrowser(`<html><p>It is ${new Date().toLocaleTimeString()}</p></html>`, WebUi.browser.Firefox)
+   * webinix.showBrowser(`<html><p>It is ${new Date().toLocaleTimeString()}</p></html>`, WebUi.Browser.Firefox)
    * //Show a local file
    * webinix.showBrowser('list.txt', Webui.Browser.Firefox)
    * ```
    */
   showBrowser(
     content: string,
-    browser: number,
+    browser: WebUi.Browser,
   ) {
     const code = this.#lib.symbols.webinix_show_browser(
       this.#window,
@@ -373,20 +373,22 @@ export class WebUi {
   static get version() {
     return "2.3.0";
   }
+}
 
-  static get browser() {
-    return {
-      AnyBrowser: 0, // 0. Default recommended web browser
-      Chrome: 1, // 1. Google Chrome
-      Firefox: 2, // 2. Mozilla Firefox
-      Edge: 3, // 3. Microsoft Edge
-      Safari: 4, // 4. Apple Safari
-      Chromium: 5, // 5. The Chromium Project
-      Opera: 6, // 6. Opera Browser
-      Brave: 7, // 7. The Brave Browser
-      Vivaldi: 8, // 8. The Vivaldi Browser
-      Epic: 9, // 9. The Epic Browser
-      Yandex: 10, // 10. The Yandex Browser
-    } as const;
+//deno-lint-ignore no-namespace
+export namespace WebUi {
+  export type Event = WebUiEvent;
+  export enum Browser {
+    AnyBrowser, // 0. Default recommended web browser
+    Chrome, // 1. Google Chrome
+    Firefox, // 2. Mozilla Firefox
+    Edge, // 3. Microsoft Edge
+    Safari, // 4. Apple Safari
+    Chromium, // 5. The Chromium Project
+    Opera, // 6. Opera Browser
+    Brave, // 7. The Brave Browser
+    Vivaldi, // 8. The Vivaldi Browser
+    Epic, // 9. The Epic Browser
+    Yandex0, // 10. The Yandex Browser
   }
 }
