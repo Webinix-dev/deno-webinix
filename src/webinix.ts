@@ -39,16 +39,22 @@ export const js = {
   response: "",
 };
 
-const webinixLib = await loadLib();
+let webinixLib: Awaited<ReturnType<typeof loadLib>>;
+let loaded = false;
+let libPath: string | undefined = undefined;
 
-export function setLibPath(_path: string) {
-  if (!existsSync(_path)) {
-    throw new Error(`Webinix: File not found "${_path}"`);
+export function setLibPath(path: string) {
+  if (!existsSync(path)) {
+    throw new Error(`Webinix: File not found "${path}"`);
   }
-  // libPath = path;
+  libPath = path;
 }
 
-export function newWindow(): Usize {
+export async function newWindow(): Promise<Usize> {
+  if (loaded) {
+    webinixLib = await loadLib(libPath);
+    loaded = true;
+  }
   return webinixLib.symbols.webinix_new_window();
 }
 
