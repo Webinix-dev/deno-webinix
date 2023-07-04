@@ -21,12 +21,13 @@
  * ```ts
  * import { webinix } from "https://deno.land/x/webinix/mod.ts";
  *
- * const myWindow = webinix.newWindow();
- * webinix.show(myWindow, "<html>Hello World</html>");
- * webinix.wait();
+ * const myWindow = new WebUi();
+ * webinix.show("<html>Hello World</html>");
+ * WebUi.wait();
  * ```
  *
  * @module
  * @license MIT
  */
-export * as webinix from "./src/webinix.ts";
+export { WebUi } from "./src/webinix.ts";
+export type { WebUiEvent } from "./src/types.ts";
