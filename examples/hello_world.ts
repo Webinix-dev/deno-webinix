@@ -1,4 +1,3 @@
-
 // Run this script by:
 // deno run --allow-all --unstable hello_world.ts
 
@@ -6,11 +5,11 @@
 import { webinix } from "../mod.ts";
 
 // Optional - Set a custom library path:
-//  const lib_full_path = 'webinix-2-x64.dll';
-//  console.log("Looking for the Webinix dynamic library at: " + lib_full_path);
-//  webinix.set_lib_path(lib_full_path);
+//  const libFullPath = 'webinix-2-x64.dll';
+//  console.log("Looking for the Webinix dynamic library at: " + libFullPath);
+//  webinix.setLibPath(libFullPath);
 
-const my_html = `
+const myHtml = `
 <!DOCTYPE html>
 <html>
 	<head>
@@ -49,54 +48,53 @@ const my_html = `
 </html>
 `;
 
-function calculate(e : webinix.event) {
-
+function calculate(e: webinix.Event) {
   // Create a JavaScript object
-  const my_js = webinix.js;
+  const myJs = webinix.js;
 
   // Settings if needed
   // my_js.timeout = 30; // Set javascript execution timeout
   // my_js.response_size = 64; // Set the response size in bytes
 
   // Call a js function
-  if(!webinix.script(e.win, my_js, "return get_A()")) {
+  if (!webinix.script(e.win, myJs, "return get_A()")) {
     // Error
-    console.log("Error in the JavaScript: " + my_js.response);
+    console.log("Error in the JavaScript: " + myJs.response);
     return;
   }
 
   // Get A
-  const A = my_js.response;
+  const A = myJs.response;
 
   // Call a js function
-  if(!webinix.script(e.win, my_js, "return get_B();")) {
+  if (!webinix.script(e.win, myJs, "return get_B();")) {
     // Error
-    console.log("Error in the JavaScript: " + my_js.response);
+    console.log("Error in the JavaScript: " + myJs.response);
     return;
   }
 
   // Get B
-  const B = my_js.response;
+  const B = myJs.response;
 
   // Calculate
-  const C : number = parseInt(A) + parseInt(B);
+  const C: number = parseInt(A) + parseInt(B);
 
   // Run js (Quick Way)
   webinix.run(e.win, "set_result(" + C + ");");
 }
 
 // Create new window
-const my_window = webinix.new_window();
+const myWindow = await webinix.newWindow();
 
 // Bind
-webinix.bind(my_window, "Calculate", calculate);
-webinix.bind(my_window, "Exit", function(e : webinix.event) {
+webinix.bind(myWindow, "Calculate", calculate);
+webinix.bind(myWindow, "Exit", function (_e: webinix.Event) {
   // Close all windows and exit
   webinix.exit();
 });
 
 // Show the window
-webinix.show(my_window, my_html); // Or webinix.show(my_window, 'hello_world.html');
+webinix.show(myWindow, myHtml); // Or webinix.show(myWindow, 'hello_world.html');
 
 // Wait until all windows get closed
 await webinix.wait();

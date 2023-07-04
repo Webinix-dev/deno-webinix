@@ -1,8 +1,7 @@
-
 # Webinix Examples - Deno
 
-This is an example of how to use the Webinix dynamic library in Deno to create an HTML5 based user interface.
-
+This is an example of how to use the Webinix dynamic library in Deno to create an
+HTML5 based user interface.
 
 Tested using Deno v1.33.1.
 
@@ -10,9 +9,10 @@ Tested using Deno v1.33.1.
 
 This example shows how to use the Webinix Dynamic Library in Deno.
 
- 1. Download and [Install Deno](https://github.com/denoland/deno/releases) (*Or just copy deno binary file into this folder*)
- 2. Download Webinix pre-built Library (*[webinix.me](https://webinix.me/)*)
- 3. Run `deno run --allow-all --unstable hello_world.ts`
+1. Download and [Install Deno](https://github.com/denoland/deno/releases) (_Or
+   just copy deno binary file into this folder_)
+2. Download Webinix pre-built Library (_[webinix.me](https://webinix.me/)_)
+3. Run `deno run --allow-all --unstable hello_world.ts`
 
 Folder structure example:
 
