@@ -36,8 +36,8 @@ is written in Deno using Webinix as the GUI library.
 ```js
 import { webinix } from "https://deno.land/x/webinix@2.3.0/mod.ts";
 
-const my_window = webinix.new_window();
-webinix.show(my_window, "<html>Hello World</html>");
+const myWindow = webinix.newWindow();
+webinix.show(myWindow, "<html>Hello World</html>");
 await webinix.wait();
 ```
 
