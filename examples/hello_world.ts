@@ -1,4 +1,3 @@
-
 // Run this script by:
 // deno run --allow-all --unstable hello_world.ts
 
@@ -49,8 +48,7 @@ const my_html = `
 </html>
 `;
 
-function calculate(e : webinix.event) {
-
+function calculate(e: webinix.Event) {
   // Create a JavaScript object
   const my_js = webinix.js;
 
@@ -59,7 +57,7 @@ function calculate(e : webinix.event) {
   // my_js.response_size = 64; // Set the response size in bytes
 
   // Call a js function
-  if(!webinix.script(e.win, my_js, "return get_A()")) {
+  if (!webinix.script(e.win, my_js, "return get_A()")) {
     // Error
     console.log("Error in the JavaScript: " + my_js.response);
     return;
@@ -69,7 +67,7 @@ function calculate(e : webinix.event) {
   const A = my_js.response;
 
   // Call a js function
-  if(!webinix.script(e.win, my_js, "return get_B();")) {
+  if (!webinix.script(e.win, my_js, "return get_B();")) {
     // Error
     console.log("Error in the JavaScript: " + my_js.response);
     return;
@@ -79,18 +77,18 @@ function calculate(e : webinix.event) {
   const B = my_js.response;
 
   // Calculate
-  const C : number = parseInt(A) + parseInt(B);
+  const C: number = parseInt(A) + parseInt(B);
 
   // Run js (Quick Way)
   webinix.run(e.win, "set_result(" + C + ");");
 }
 
 // Create new window
-const my_window = webinix.new_window();
+const my_window = webinix.newWindow();
 
 // Bind
 webinix.bind(my_window, "Calculate", calculate);
-webinix.bind(my_window, "Exit", function(e : webinix.event) {
+webinix.bind(my_window, "Exit", function (e: webinix.Event) {
   // Close all windows and exit
   webinix.exit();
 });
