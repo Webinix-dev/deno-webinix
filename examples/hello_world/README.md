@@ -15,3 +15,5 @@ This example shows how to use the Webinix in Deno.
 
 If any issue with during library loading a local version (Webinix pre-built
 library at [webinix.me](https://webinix.me/)) can be used.
+
+The first use embedded html page and the local one url file path
