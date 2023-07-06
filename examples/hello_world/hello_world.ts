@@ -1,13 +1,11 @@
 // Run this script by:
 // deno run --allow-all --unstable hello_world.ts
-
-// Import Webinix module (Local file)
-import { webinix } from "../mod.ts";
+import { WebUi } from "../../mod.ts";
 
 // Optional - Set a custom library path:
-//  const libFullPath = 'webinix-2-x64.dll';
-//  console.log("Looking for the Webinix dynamic library at: " + libFullPath);
-//  webinix.setLibPath(libFullPath);
+//  const libPath = './webinix-2-x64.dll';
+//  console.log("Looking for the Webinix dynamic library at: " + libPath);
+//  new WebUi({ libPath });
 
 const myHtml = `
 <!DOCTYPE html>
@@ -26,7 +24,7 @@ const myHtml = `
         </style>
     </head>
     <body>
-        <h1>Webinix 2 - Deno Hello World Example</h1><br>
+        <h1>Webinix 2 - Deno Hello World (File)</h1><br>
         A: <input id="MyInputA" value="4"><br><br>
         B: <input id="MyInputB" value="6"><br><br>
         <div id="Result" style="color: #dbdd52">A + B = ?</div><br><br>
@@ -44,60 +42,43 @@ const myHtml = `
               document.getElementById("Result").innerHTML = 'A + B = ' + res;
             }
         </script>
-    </body>
+    </body>    
 </html>
 `;
 
-function calculate(e: webinix.Event) {
-  // Create a JavaScript object
-  const myJs = webinix.js;
-
+async function calculate({ window }: WebUi.Event) {
   // Settings if needed
-  // my_js.timeout = 30; // Set javascript execution timeout
-  // my_js.response_size = 64; // Set the response size in bytes
+  // timeout = 30 // Set javascript execution timeout
+  // bufferSize = 64 // Set the response size in bytes
 
   // Call a js function
-  if (!webinix.script(e.win, myJs, "return get_A()")) {
-    // Error
-    console.log("Error in the JavaScript: " + myJs.response);
-    return;
-  }
+  const getA = await window.script("return get_A()").catch((error) => {
+    console.error(`Error in the JavaScript: ${error}`);
+    return "";
+  });
 
-  // Get A
-  const A = myJs.response;
-
-  // Call a js function
-  if (!webinix.script(e.win, myJs, "return get_B();")) {
-    // Error
-    console.log("Error in the JavaScript: " + myJs.response);
-    return;
-  }
-
-  // Get B
-  const B = myJs.response;
+  const getB = await window.script("return get_B()").catch((error) => {
+    console.error(`Error in the JavaScript: ${error}`);
+    return "";
+  });
 
   // Calculate
-  const C: number = parseInt(A) + parseInt(B);
+  const result = parseInt(getA) + parseInt(getB);
 
   // Run js (Quick Way)
-  webinix.run(e.win, "set_result(" + C + ");");
+  window.run(`set_result(${result});`);
 }
 
 // Create new window
-const myWindow = await webinix.newWindow();
+const myWindow = new WebUi();
 
 // Bind
-webinix.bind(myWindow, "Calculate", calculate);
-webinix.bind(myWindow, "Exit", function (_e: webinix.Event) {
-  // Close all windows and exit
-  webinix.exit();
-});
+myWindow.bind("Calculate", calculate);
+myWindow.bind("Exit", () => WebUi.exit()); // Close all windows and exit
 
 // Show the window
-webinix.show(myWindow, myHtml); // Or webinix.show(myWindow, 'hello_world.html');
+myWindow.show(myHtml); // Or myWindow.show('./hello_world.html');
 
 // Wait until all windows get closed
-await webinix.wait();
-
+await WebUi.wait();
 console.log("Thank you.");
-Deno.exit(0);
