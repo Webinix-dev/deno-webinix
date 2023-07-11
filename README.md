@@ -29,16 +29,16 @@ is written in Deno using Webinix as the GUI library.
 
 ## Installation
 
-`import { webinix } from "https://deno.land/x/webinix@2.3.0/mod.ts";`
+`import { Webinix } from "https://deno.land/x/webinix/mod.ts";`
 
 ## Minimal Example
 
 ```js
-import { webinix } from "https://deno.land/x/webinix@2.3.0/mod.ts";
+import { Webinix } from "https://deno.land/x/webinix/mod.ts";
 
-const myWindow = new WebUi();
+const myWindow = new Webinix();
 webinix.show("<html>Hello World</html>");
-await WebUi.wait();
+await Webinix.wait();
 ```
 
 ## Repository Examples

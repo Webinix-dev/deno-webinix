@@ -14,19 +14,19 @@
  * - Original library written in Pure C
  *
  * ## Installation
- * `import { webinix } from "https://deno.land/x/webinix/mod.ts";`
+ * `import { Webinix } from "https://deno.land/x/webinix/mod.ts";`
  *
  * ## Minimal Example
  *
  * ```ts
- * import { webinix } from "https://deno.land/x/webinix/mod.ts";
+ * import { Webinix } from "https://deno.land/x/webinix/mod.ts";
  *
- * const myWindow = new WebUi();
+ * const myWindow = new Webinix();
  * webinix.show("<html>Hello World</html>");
- * WebUi.wait();
+ * Webinix.wait();
  * ```
  *
  * @module
  * @license MIT
  */
-export { WebUi } from "./src/webinix.ts";
+export { Webinix } from "./src/webinix.ts";
