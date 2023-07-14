@@ -58,6 +58,26 @@ await Webinix.wait();
 
 [More examples](https://github.com/webinix-dev/deno-webinix/tree/main/examples)
 
+## Security flags
+
+Minimal required flags for running the module are:
+
+| flag        | value                                  | purpose                                  |
+| ----------- | -------------------------------------- | ---------------------------------------- |
+| unstable    | NA                                     | FFI UnsafePointer and UnsafeCallback use |
+| allow-env   | USERPROFILE (windows) or HOME (others) | Caching dynamic library                  |
+| allow-write | ~/.deno_webinix                          | Saving cache                             |
+| allow-read  | ~/.deno_webinix                          | Opening cache                            |
+| allow-ffi   | ~/.deno_webinix (unstable so allow all)  | Using FFI                                |
+
+Example:
+
+```sh
+deno run --unstable --allow-env=HOME --allow-ffi --allow-read=~/.deno_webinix --allow-write=~/.deno_webinix https://deno.land/x/webinix/examples/hello_world/hello_world.ts
+```
+
+You can see all permissions prompt by using `deno run` without any.
+
 ## Documentation
 
 - [Online Documentation](https://webinix.me/docs/#/deno_api)
