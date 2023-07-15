@@ -19,7 +19,7 @@ import {
   WebinixEvent,
   WebinixLib,
 } from "./types.ts";
-import { stringToUint8array, uint8arrayToString, WebinixError } from "./utils.ts";
+import { fromCString, toCString, WebinixError } from "./utils.ts";
 
 //Register loaded lib (and allow mutiple lib source)
 const libs: Map<string | symbol, WebinixLib> = new Map();
@@ -99,7 +99,7 @@ export class Webinix {
   ) {
     const code = this.#lib.symbols.webinix_show_browser(
       this.#window,
-      stringToUint8array(content),
+      toCString(content),
       browser,
     );
     if (code !== 1) {
@@ -217,13 +217,13 @@ export class Webinix {
     // Execute the script
     const status = this.#lib.symbols.webinix_script(
       this.#window,
-      stringToUint8array(script),
+      toCString(script),
       options.timeout,
       buffer,
       bufferSize,
     );
 
-    const response = uint8arrayToString(buffer);
+    const response = fromCString(buffer);
 
     //TODO call symbol asynchronously
     if (status) {
@@ -259,7 +259,7 @@ export class Webinix {
     // Execute the script
     const status = this.#lib.symbols.webinix_run(
       this.#window,
-      stringToUint8array(script),
+      toCString(script),
     );
 
     return Boolean(status);
@@ -335,14 +335,14 @@ export class Webinix {
         this.#lib.symbols.webinix_interface_set_response(
           this.#window,
           event_number,
-          stringToUint8array(result),
+          toCString(result),
         );
       },
     );
 
     this.#lib.symbols.webinix_interface_bind(
       this.#window,
-      stringToUint8array(idOrlabel),
+      toCString(idOrlabel),
       callbackResource.pointer,
     );
   }
