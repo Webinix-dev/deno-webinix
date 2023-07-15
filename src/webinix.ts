@@ -73,7 +73,7 @@ export class Webinix {
   show(content: string) {
     const code = this.#lib.symbols.webinix_show(
       this.#window,
-      stringToUint8array(content),
+      toCString(content),
     );
     if (code !== 1) {
       throw new WebinixError(`Unable to show content [code: ${code}]`);
