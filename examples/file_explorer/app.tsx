@@ -15,7 +15,7 @@ export function Link(
   //set client callback using webinix global helpers
   //use decodeURIComponent().slice(1, -1) beacause au lacking of proper deno.json compilerOptions
   const onclick =
-    `webinix_fn('link', '${href}').then(response => output.innerHTML = decodeURIComponent(response).slice(1, -1))`;
+    `webinix.call('link', '${href}').then(response => output.innerHTML = decodeURIComponent(response).slice(1, -1))`;
   //@ts-ignore embedded js
   return <span className="link" onclick={onclick} {...props}>{children}</span>;
 }
@@ -48,7 +48,7 @@ export function App() {
 
                         search.addEventListener('submit', async (e) => {
                             e.preventDefault()
-                            const response = await webinix_fn('search', query.value)
+                            const response = await webinix.call('search', query.value)
                             //use decodeURIComponent().slice(1, -1) beacause au lacking of proper deno.json compilerOptions
                             output.innerHTML = decodeURIComponent(response).slice(1, -1)
                         })
