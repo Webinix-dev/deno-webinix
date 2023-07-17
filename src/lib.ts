@@ -45,7 +45,7 @@ export function loadLib(
       webinix_interface_is_app_running: {
         // bool webinix_interface_is_app_running(void)
         parameters: [],
-        result: "i32",
+        result: "bool",
       },
       webinix_new_window: {
         // size_t webinix_new_window(void)
@@ -55,12 +55,12 @@ export function loadLib(
       webinix_show: {
         // bool webinix_show(size_t window, const char* content)
         parameters: ["usize", "buffer"],
-        result: "i32",
+        result: "bool",
       },
       webinix_show_browser: {
         // bool webinix_show_browser(size_t window, const char* content, unsigned int browser)
         parameters: ["usize", "buffer", "u32"],
-        result: "i32",
+        result: "bool",
       },
       webinix_interface_bind: {
         // unsigned int webinix_interface_bind(size_t window, const char* element, void (*func)(size_t, unsigned int, char*, char*, unsigned int))

@@ -71,12 +71,12 @@ export class Webinix {
    * ```
    */
   show(content: string) {
-    const code = this.#lib.symbols.webinix_show(
+    const status = this.#lib.symbols.webinix_show(
       this.#window,
       toCString(content),
     );
-    if (code !== 1) {
-      throw new WebinixError(`Unable to show content [code: ${code}]`);
+    if (!status) {
+      throw new WebinixError(`unable to show content`);
     }
   }
 
@@ -97,13 +97,13 @@ export class Webinix {
     content: string,
     browser: Webinix.Browser,
   ) {
-    const code = this.#lib.symbols.webinix_show_browser(
+    const status = this.#lib.symbols.webinix_show_browser(
       this.#window,
       toCString(content),
       browser,
     );
-    if (code !== 1) {
-      throw new WebinixError(`Unable to show content [code: ${code}]`);
+    if (!status) {
+      throw new WebinixError(`unable to show content`);
     }
   }
 
