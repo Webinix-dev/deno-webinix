@@ -42,11 +42,6 @@ export function loadLib(
         result: "void",
         nonblocking: true,
       },
-      webinix_interface_is_app_running: {
-        // bool webinix_interface_is_app_running(void)
-        parameters: [],
-        result: "bool",
-      },
       webinix_new_window: {
         // size_t webinix_new_window(void)
         parameters: [],
