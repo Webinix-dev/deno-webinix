@@ -68,9 +68,9 @@ export function loadLib(
         result: "bool",
       },
       webinix_run: {
-        // bool webinix_run(size_t window, const char* script)
+        // void webinix_run(size_t window, const char* script)
         parameters: ["usize", "buffer"],
-        result: "bool",
+        result: "void",
       },
       webinix_interface_set_response: {
         // void webinix_interface_set_response(size_t window, unsigned int event_number, const char* response)

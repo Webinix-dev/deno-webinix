@@ -236,7 +236,6 @@ export class Webinix {
    * Execute client code from backend.
    * Execute a JavaScript script string in a web UI without awaiting the result.
    * @param {string} script - js code to execute.
-   * @returns execution status.
    * @example
    * ```ts
    * const webinix = new Webinix()
@@ -255,14 +254,12 @@ export class Webinix {
    * webinix.run('updateText("backend action")')
    * ```
    */
-  run(script: string): boolean {
+  run(script: string) {
     // Execute the script
-    const status = this.#lib.symbols.webinix_run(
+    this.#lib.symbols.webinix_run(
       this.#window,
       toCString(script),
     );
-
-    return Boolean(status);
   }
 
   /**
