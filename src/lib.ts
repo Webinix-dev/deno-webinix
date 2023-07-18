@@ -97,6 +97,11 @@ export function loadLib(
         parameters: ["usize", "bool"],
         result: "void",
       },
+      webinix_set_file_handler: {
+        //void webinix_set_file_handler(size_t window, const void* (*handler)(const char *filename, int *length)) {
+        parameters: ["usize", "function"],
+        result: "void",
+      },
     } as const,
   );
 }
