@@ -60,6 +60,7 @@ export class Webinix {
 
   /**
    * Update the ui with the new content.
+   * @returns Promise that resolves when the client bridge is linked.
    * @param {string} content - Valid html content or same root file path.
    * @throws {WebinixError} - If lib return false status.
    * @example
@@ -68,10 +69,12 @@ export class Webinix {
    * //Show the current time
    * webinix.show(`<html><p>It is ${new Date().toLocaleTimeString()}</p></html>`)
    * //Show a local file
-   * webinix.show('list.txt')
+   * await webinix.show('list.txt')
+   * //Await to ensure Webinix.script and Webinix.run can send datas to the client
+   * console.assert(webinix.isShown, true)
    * ```
    */
-  show(content: string) {
+  async show(content: string) {
     const status = this.#lib.symbols.webinix_show(
       this.#window,
       toCString(content),
@@ -79,10 +82,15 @@ export class Webinix {
     if (!status) {
       throw new WebinixError(`unable to show content`);
     }
+
+    while (!this.isShown) {
+      await new Promise((resolve) => setTimeout(resolve, 125));
+    }
   }
 
   /**
    * Update the ui with the new content with a specific browser.
+   * @returns Promise that resolves when the client bridge is linked.
    * @param {string} content - valid html content or same root file path.
    * @param {number} browser - Browser to use.
    * @throws {WebinixError} - If lib return false status.
@@ -92,10 +100,12 @@ export class Webinix {
    * //Show the current time
    * webinix.showBrowser(`<html><p>It is ${new Date().toLocaleTimeString()}</p></html>`, Webinix.Browser.Firefox)
    * //Show a local file
-   * webinix.showBrowser('list.txt', Webui.Browser.Firefox)
+   * await webinix.showBrowser('list.txt', Webui.Browser.Firefox)
+   * //Await to ensure Webinix.script and Webinix.run can send datas to the client
+   * console.assert(webinix.isShown, true)
    * ```
    */
-  showBrowser(
+  async showBrowser(
     content: string,
     browser: Webinix.Browser,
   ) {
@@ -106,6 +116,10 @@ export class Webinix {
     );
     if (!status) {
       throw new WebinixError(`unable to show content`);
+    }
+
+    while (!this.isShown) {
+      await new Promise((resolve) => setTimeout(resolve, 125));
     }
   }
 
