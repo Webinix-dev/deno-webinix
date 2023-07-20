@@ -199,7 +199,7 @@ export class Webinix {
    *  </html>`
    * )
    *
-   * const response = await webinix.script('updateText("backend action")').catch(console.error)
+   * const response = await webinix.script('return updateText("backend action")').catch(console.error)
    * //response == "ok"
    * ```
    */
