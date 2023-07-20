@@ -36,8 +36,8 @@ export class Webinix {
    * Loads webinix lib if not done and instanciate a new window.
    * @returns Window id.
    * @param libPath - Full lib path.Use a local lib instead of precached one.
-   * @param clearCache - Clear the cache used by the default static import of webinix2 lib.
-   * @throws {Error} If optional local lib not found.
+   * @param clearCache - Clear the cache used by the default static import of compatible webinix lib.
+   * @throws {WebinixError} - If optional local lib not found.
    * @example
    * ```ts
    * const webinix1 = new Webinix()
@@ -60,7 +60,8 @@ export class Webinix {
 
   /**
    * Update the ui with the new content.
-   * @param {string} content - valid html content or same root file path.
+   * @param {string} content - Valid html content or same root file path.
+   * @throws {WebinixError} - If lib return false status.
    * @example
    * ```ts
    * const webinix = new Webinix()
@@ -84,6 +85,7 @@ export class Webinix {
    * Update the ui with the new content with a specific browser.
    * @param {string} content - valid html content or same root file path.
    * @param {number} browser - Browser to use.
+   * @throws {WebinixError} - If lib return false status.
    * @example
    *  ```ts
    * const webinix = new Webinix()
