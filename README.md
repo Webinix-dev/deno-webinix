@@ -1,4 +1,4 @@
-# Webinix Deno v2.3.0
+# Webinix Deno v2.4.0
 
 [![Website](https://img.shields.io/circleci/project/github/badges/shields/master?style=for-the-badge)](https://github.com/webinix-dev/deno-webinix)
 [![Website](https://img.shields.io/github/issues/webinix-dev/deno-webinix.svg?branch=master&style=for-the-badge&url=https://google.com)](https://github.com/webinix-dev/deno-webinix/issues)
