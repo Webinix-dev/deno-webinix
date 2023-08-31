@@ -11,6 +11,7 @@ const myHtml = `
 <!DOCTYPE html>
 <html>
 	<head>
+    <script src="webinix.js"></script>
 		<title>Webinix 2 - Deno Hello World Example</title>
         <style>
             body {

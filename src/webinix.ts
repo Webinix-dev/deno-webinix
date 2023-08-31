@@ -59,7 +59,7 @@ export class Webinix {
   }
 
   /**
-   * Update the UI with the new content.
+   * Show the window or update the UI with the new content.
    * @returns Promise that resolves when the client bridge is linked.
    * @param {string} content - Valid html content or same root file path.
    * @throws {WebinixError} - If lib return false status.
@@ -83,16 +83,22 @@ export class Webinix {
       toCString(content),
     );
     if (!status) {
-      throw new WebinixError(`unable to show content`);
+      throw new WebinixError(`unable to show content`)
     }
 
-    while (!this.isShown) {
-      await new Promise((resolve) => setTimeout(resolve, 500));
+    for(let i = 0; i < 120; i++) { // 30 seconds timeout
+      if(!this.isShown)
+        await new Promise((resolve) => setTimeout(resolve, 250))
+      else
+        break
     }
+
+    if(!this.isShown)
+      throw new WebinixError(`unable to show content`)
   }
 
   /**
-   * Update the UI with the new content with a specific browser.
+   * Show the window or update the UI with the new content with a specific browser.
    * @returns Promise that resolves when the client bridge is linked.
    * @param {string} content - valid html content or same root file path.
    * @param {number} browser - Browser to use.
