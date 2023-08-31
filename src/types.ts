@@ -14,6 +14,7 @@ export interface WebinixEvent {
   eventType: number;
   element: string;
   data: string;
+  size: number;
 }
 
 export type WebinixLib = Awaited<ReturnType<typeof loadLib>>;

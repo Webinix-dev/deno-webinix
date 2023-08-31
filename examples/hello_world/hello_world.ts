@@ -3,7 +3,7 @@
 import { Webinix } from "../../mod.ts";
 
 // Optional - Set a custom library path:
-//  const libPath = './webinix-2-x64.dll';
+//  const libPath = './webinix-2.dll';
 //  console.log("Looking for the Webinix dynamic library at: " + libPath);
 //  new Webinix({ libPath });
 
