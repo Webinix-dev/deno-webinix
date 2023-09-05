@@ -41,6 +41,15 @@ webinix.show("<html>Hello World</html>");
 await Webinix.wait();
 ```
 
+_MacOS ARM_: To get deno-webinix working with an Apple Silicon Mac, you'll need to build [Webinix](https://github.com/webinix-dev/webinix) your self then pass the path to your dylib:
+
+```js
+const myWindow = new Webinix({
+  libPath: "/path/to/webinix-2.dylib",
+  clearCache: false,
+});
+```
+
 ## Repository Examples
 
 - Hello world example:
