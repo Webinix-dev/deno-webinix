@@ -10,7 +10,7 @@ export function loadLib(
       case "windows":
         return "webinix-2.dll";
       case "darwin":
-        return "webinix-2.dyn";
+        return "webinix-2.dylib";
       default:
         return "webinix-2.so";
     }
@@ -106,6 +106,11 @@ export function loadLib(
         // bool webinix_interface_is_app_running(void)
         parameters: [],
         result: 'bool',
+      },
+      webinix_set_profile: {
+        // void webinix_set_profile(size_t window, const char* name, const char* path)
+        parameters: ["usize", "buffer", "buffer"],
+        result: "void",
       },
     } as const,
   );
