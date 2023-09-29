@@ -7,7 +7,7 @@
 > Use any web browser as GUI, with Deno in the backend and HTML5 in the
 > frontend, all in a lightweight Deno module.
 
-![ScreenShot](screenshot.png)
+![ScreenShot](img/screenshot.png)
 
 ## Features
 
@@ -25,7 +25,7 @@ This
 [text editor example](https://github.com/webinix-dev/deno-webinix/tree/main/examples)
 is written in Deno using Webinix as the GUI library.
 
-![ScreenShot](webinix_deno_example.png)
+![ScreenShot](img/webinix_deno_example.png)
 
 ## Installation
 
@@ -101,7 +101,7 @@ how beneficial it is to use the web browser as GUI.
   <a href="https://www.youtube.com/watch?v=bbbcZd4cuxg"><img src="https://img.youtube.com/vi/bbbcZd4cuxg/0.jpg" alt="Embrace Modern Technology: Using HTML 5 for GUI in C++ - Borislav Stanimirov - CppCon 2019"></a>
 </div> -->
 
-![ScreenShot](cppcon_2019.png)
+![ScreenShot](img/cppcon_2019.png)
 
 ## UI & The Web Technologies
 
@@ -125,7 +125,7 @@ portable.
 
 ## How does it work?
 
-![ScreenShot](webinix_diagram.png)
+![ScreenShot](img/webinix_diagram.png)
 
 Think of Webinix like a WebView controller, but instead of embedding the WebView
 controller in your program, which makes the final program big in size, and

@@ -22,8 +22,8 @@
  * import { Webinix } from "https://deno.land/x/webinix/mod.ts";
  *
  * const myWindow = new Webinix();
- * webinix.show("<html>Hello World</html>");
- * Webinix.wait();
+ * myWindow.show( "<html><head><script src=\"webinix.js\"></script></head> Hello World ! </html>" );
+ * await Webinix.wait();
  * ```
  *
  * @module

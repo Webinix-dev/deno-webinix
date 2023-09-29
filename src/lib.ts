@@ -1,4 +1,15 @@
-import { webinix2Darwin, webinix2Linux, webinix2Windows } from "../deps.ts";
+// FFI (Foreign Function Interface) for webinix.ts
+
+import {
+  webinixLinuxClangX64,
+  webinixLinuxGccAarch64,
+  webinixLinuxGccArm,
+  webinixLinuxGccX64,
+  webinixMacosClangArm64,
+  webinixMacosClangX64,
+  webinixWindowsGccX64,
+  webinixWindowsMsvcX64,
+} from "../deps.ts";
 import { b64ToBuffer, writeLib } from "./utils.ts";
 export function loadLib(
   { libPath, clearCache }: { libPath?: string; clearCache: boolean },
@@ -6,25 +17,97 @@ export function loadLib(
   // Determine the library name based
   // on the current operating system
   const libName = (() => {
+    let fileName = "";
     switch (Deno.build.os) {
       case "windows":
-        return "webinix-2.dll";
+        switch (Deno.build.arch) {
+          case "x86_64":
+            fileName = "webinix-windows-msvc-x64/webinix-2.dll";
+            break;
+          default:
+            throw new Error(
+              `Unsupported architecture ${Deno.build.arch} for Windows`,
+            );
+        }
+        break;
       case "darwin":
-        return "webinix-2.dylib";
+        switch (Deno.build.arch) {
+          case "x86_64":
+            fileName = "webinix-macos-clang-x64/webinix-2.dylib";
+            break;
+          // case "arm64":
+          //   fileName = "webinix-macos-clang-arm64/webinix-2.dylib";
+          //   break;
+          case "aarch64":
+            fileName = "webinix-macos-clang-arm64/webinix-2.dylib";
+            break;
+          default:
+            throw new Error(
+              `Unsupported architecture ${Deno.build.arch} for Darwin`,
+            );
+        }
+        break;
       default:
-        return "webinix-2.so";
+        // Assuming Linux for default
+        switch (Deno.build.arch) {
+          case "x86_64":
+            fileName = "webinix-linux-gcc-x64/webinix-2.so";
+            break;
+          // case "arm":
+          //   fileName = "webinix-linux-gcc-arm/webinix-2.so";
+          //   break;
+          case "aarch64":
+            fileName = "webinix-linux-gcc-aarch64/webinix-2.so";
+            break;
+          default:
+            throw new Error(
+              `Unsupported architecture ${Deno.build.arch} for Linux`,
+            );
+        }
+        break;
     }
+    return fileName;
   })();
 
   const libBuffer = (() => {
     if (libPath === undefined) {
       switch (Deno.build.os) {
         case "windows":
-          return b64ToBuffer(webinix2Windows.b64);
+          switch (Deno.build.arch) {
+            case "x86_64":
+              return b64ToBuffer(webinixWindowsMsvcX64.b64);
+            default:
+              throw new Error(
+                `Unsupported architecture ${Deno.build.arch} for Windows`,
+              );
+          }
         case "darwin":
-          return b64ToBuffer(webinix2Darwin.b64);
+          switch (Deno.build.arch) {
+            case "x86_64":
+              return b64ToBuffer(webinixMacosClangX64.b64);
+            case "aarch64":
+              return b64ToBuffer(webinixMacosClangArm64.b64);
+            // case "arm64":
+            //   return b64ToBuffer(webinixMacosClangArm64.b64);
+            default:
+              throw new Error(
+                `Unsupported architecture ${Deno.build.arch} for Darwin`,
+              );
+          }
         default:
-          return b64ToBuffer(webinix2Linux.b64);
+          // Assuming Linux for default
+          switch (Deno.build.arch) {
+            case "x86_64":
+              return b64ToBuffer(webinixLinuxGccX64.b64);
+            // case "arm":
+            //   return b64ToBuffer(webinixLinuxGccArm.b64);
+            case "aarch64":
+              return b64ToBuffer(webinixLinuxGccArm.b64);
+            default:
+              throw new Error(
+                `Unsupported architecture ${Deno.build.arch} for Linux`,
+              );
+          }
       }
     }
     return new Uint8Array();
@@ -105,7 +188,7 @@ export function loadLib(
       webinix_interface_is_app_running: {
         // bool webinix_interface_is_app_running(void)
         parameters: [],
-        result: 'bool',
+        result: "bool",
       },
       webinix_set_profile: {
         // void webinix_set_profile(size_t window, const char* name, const char* path)
