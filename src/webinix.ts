@@ -177,21 +177,6 @@ export class Webinix {
   }
 
   /**
-   * After the window is loaded, the URL is not valid anymore for safety.
-   * Webinix will show an error if someone else tries to access the URL.
-   * To allow multi-user access to the same URL, you can use multiAccess.
-   * @param {boolean} status - Multi access status of the window.
-   * @example
-   * ```ts
-   * const myWindow = new Webinix()
-   * myWindow.setMultiAccess(true) // UI is accessible through the page url
-   * ```
-   */
-  setMultiAccess(status: boolean) {
-    return this.#lib.symbols.webinix_set_multi_access(this.#window, status);
-  }
-
-  /**
    * Tries to close all opened windows and make Webinix.wait() break.
    * @example
    * ```ts
