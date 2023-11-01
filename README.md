@@ -37,7 +37,7 @@ is written in Deno using Webinix as the GUI library.
 import { Webinix } from "https://deno.land/x/webinix/mod.ts";
 
 const myWindow = new Webinix();
-webinix.show("<html>Hello World</html>");
+myWindow.show("<html>Hello World</html>");
 await Webinix.wait();
 ```
 
