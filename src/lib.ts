@@ -141,7 +141,7 @@ export function loadLib(
         result: "bool",
       },
       webinix_interface_bind: {
-        // size_t webinix_interface_bind(size_t window, const char* element, void (*func)(size_t, size_t, char*, char*, size_t, size_t))
+        // size_t webinix_interface_bind(size_t window, const char* element, void (*func)(size_t, size_t, char*, size_t, size_t));
         parameters: ["usize", "buffer", "function"],
         result: "usize",
       },
@@ -188,6 +188,31 @@ export function loadLib(
       webinix_set_profile: {
         // void webinix_set_profile(size_t window, const char* name, const char* path)
         parameters: ["usize", "buffer", "buffer"],
+        result: "void",
+      },
+      webinix_interface_get_int_at: {
+        // long long int webinix_interface_get_int_at(size_t window, size_t event_number, size_t index)
+        parameters: ["usize", "usize", "usize"],
+        result: "i64",
+      },
+      webinix_interface_get_string_at: {
+        // const char* webinix_interface_get_string_at(size_t window, size_t event_number, size_t index)
+        parameters: ["usize", "usize", "usize"],
+        result: "buffer",
+      },
+      webinix_interface_get_bool_at: {
+        // bool webinix_interface_get_bool_at(size_t window, size_t event_number, size_t index)
+        parameters: ["usize", "usize", "usize"],
+        result: "bool",
+      },
+      // webinix_interface_get_size_at: {
+      //   // size_t webinix_interface_get_size_at(size_t window, size_t event_number, size_t index)
+      //   parameters: ["usize", "usize", "usize"],
+      //   result: "usize",
+      // },
+      webinix_clean: {
+        // void webinix_clean()
+        parameters: [],
         result: "void",
       },
     } as const,
