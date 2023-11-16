@@ -1,3 +1,17 @@
+# Deno binaries
+src/webinix-windows-msvc-x64/
+src/webinix-windows-msvc-arm/
+src/webinix-windows-msvc-arm64/
+src/webinix-macos-clang-x64/
+src/webinix-macos-clang-arm/
+src/webinix-macos-clang-arm64/
+src/webinix-linux-gcc-x64/
+src/webinix-linux-gcc-arm/
+src/webinix-linux-gcc-arm64/
+*.dll
+*.so
+*.dylib
+
 # Build
 *.exe
 *.ilk

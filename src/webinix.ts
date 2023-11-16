@@ -10,7 +10,6 @@
   Canada.
 */
 
-import { existsSync } from "../deps.ts";
 import { loadLib } from "./lib.ts";
 import {
   BindCallback,
@@ -21,10 +20,6 @@ import {
 } from "./types.ts";
 import { fromCString, toCString, WebinixError } from "./utils.ts";
 
-// Register loaded lib (and allow mutiple lib source)
-const libs: Map<string | symbol, WebinixLib> = new Map();
-const defaultLib = Symbol("defaultLib");
-
 // Register windows to bind instance to Webinix.Event
 const windows: Map<Usize, Webinix> = new Map();
 
@@ -33,27 +28,16 @@ export class Webinix {
   #lib: WebinixLib;
 
   /**
-   * Loads webinix lib if not done and instanciate a new window.
+   * Instanciate a new Webinix window.
    * @returns Window id.
-   * @param libPath - Full lib path.Use a local lib instead of precached one.
-   * @param clearCache - Clear the cache used by the default static import of compatible webinix lib.
    * @throws {WebinixError} - If optional local lib not found.
    * @example
    * ```ts
    * const myWindow1 = new Webinix()
-   * const myWindow2 = new Webinix({ libPath: './local_webinix_2.dll', clearCache: true })
    * ```
    */
-  constructor(
-    options: { libPath?: string; clearCache: boolean } = { clearCache: false },
-  ) {
-    if (options.libPath && !existsSync(options.libPath)) {
-      throw new WebinixError(`File not found "${options.libPath}"`);
-    }
-    if (!libs.has(options.libPath ?? defaultLib)) {
-      libs.set(options.libPath ?? defaultLib, loadLib(options));
-    }
-    this.#lib = libs.get(options.libPath ?? defaultLib)!;
+  constructor() {
+    this.#lib = loadLib();
     this.#window = this.#lib.symbols.webinix_new_window();
     windows.set(this.#window, this);
   }
@@ -68,7 +52,7 @@ export class Webinix {
    * const myWindow = new Webinix()
    *
    * // Show the current time
-   * myWindow.show(`<html><p>It is ${new Date().toLocaleTimeString()}</p></html>`)
+   * myWindow.show(`<html><script src="webinix.js">/script> <p>It is ${new Date().toLocaleTimeString()}</p> </html>`)
    *
    * // Show a local file
    * await myWindow.show('list.txt')
@@ -83,7 +67,7 @@ export class Webinix {
       toCString(content),
     );
     if (!status) {
-      throw new WebinixError(`unable to show content`);
+      throw new WebinixError(`unable to start the browser`);
     }
 
     for (let i = 0; i < 120; i++) { // 30 seconds timeout
@@ -95,7 +79,7 @@ export class Webinix {
     }
 
     if (!this.isShown) {
-      throw new WebinixError(`unable to show content`);
+      throw new WebinixError(`unable to connect to the browser`);
     }
   }
 
@@ -110,10 +94,10 @@ export class Webinix {
    * const myWindow = new Webinix()
    *
    * // Show the current time
-   * myWindow.showBrowser(`<html><p>It is ${new Date().toLocaleTimeString()}</p></html>`, Webinix.Browser.Firefox)
+   * myWindow.showBrowser(`<html><script src="webinix.js">/script> Hi, This is Chrome! </html>`, Webinix.Browser.Chrome)
    *
    * // Show a local file
-   * await myWindow.showBrowser('list.txt', Webui.Browser.Firefox)
+   * await myWindow.showBrowser('list.txt', Webui.Browser.Chrome)
    *
    * // Await to ensure Webinix.script and Webinix.run can send datas to the client
    * console.assert(myWindow.isShown, true)
@@ -129,11 +113,19 @@ export class Webinix {
       browser,
     );
     if (!status) {
-      throw new WebinixError(`unable to show content`);
+      throw new WebinixError(`unable to start the browser`);
     }
 
-    while (!this.isShown) {
-      await new Promise((resolve) => setTimeout(resolve, 1_500));
+    for (let i = 0; i < 120; i++) { // 30 seconds timeout
+      if (!this.isShown) {
+        await new Promise((resolve) => setTimeout(resolve, 250));
+      } else {
+        break;
+      }
+    }
+
+    if (!this.isShown) {
+      throw new WebinixError(`unable to connect to the browser`);
     }
   }
 
@@ -145,7 +137,7 @@ export class Webinix {
    * const myWindow1 = new Webinix()
    * const myWindow2 = new Webinix()
    *
-   * myWindow1.show(`<html><p>View 1</p></html>`)
+   * myWindow1.show(`<html><script src="webinix.js">/script> <p>View 1</p> </html>`)
    *
    * myWindow1.isShown // true
    * myWindow2.isShown // false
@@ -163,8 +155,8 @@ export class Webinix {
    * const myWindow1 = new Webinix()
    * const myWindow2 = new Webinix()
    *
-   * myWindow1.show(`<html><p>View 1</p></html>`)
-   * myWindow2.show(`<html><p>View 2</p></html>`)
+   * myWindow1.show(`<html><script src="webinix.js">/script> <p>View 1</p> </html>`)
+   * myWindow2.show(`<html><script src="webinix.js"></script> <p>View 2</p> </html>`)
    *
    * myWindow2.close()
    *
@@ -183,8 +175,8 @@ export class Webinix {
    * const myWindow1 = new Webinix()
    * const myWindow2 = new Webinix()
    *
-   * myWindow1.show(`<html><p>View 1</p></html>`)
-   * myWindow2.show(`<html><p>View 2</p></html>`)
+   * myWindow1.show(`<html><script src="webinix.js">/script> <p>View 1</p> </html>`)
+   * myWindow2.show(`<html><script src="webinix.js"></script> <p>View 2</p> </html>`)
    *
    * Webinix.exit()
    *
@@ -193,33 +185,21 @@ export class Webinix {
    * ```
    */
   static exit() {
-    libs.forEach((lib) => lib.symbols.webinix_exit());
+    let lib = loadLib();
+    lib.symbols.webinix_exit();
   }
 
   /**
    * Execute a JavaScript string in the UI and returns a boolean indicating whether the
    * script execution was successful.
    * @param {string} script - js code to execute.
-   * @param options - response timeout (0 means no timeout) and bufferSize,
-   * default is `{ timeout: 0, bufferSize: 1024 * 8 }`.
+   * @param options - response timeout (0 means no timeout), bufferSize,
+   * default is `{ timeout: 0, bufferSize: 1024 * 1000 }`.
    * @returns Promise that resolve or reject the client response.
    * @example
    * ```ts
-   * const myWindow = new Webinix()
-   * myWindow.show(
-   *  `<html>
-   *    <p id="textElement"></p>
-   *     <script>
-   *      function updateText(text) {
-   *        document.getElementById('textElement').innerText = text
-   *        return 'ok'
-   *      }
-   *    </script>
-   *  </html>`
-   * )
-   *
-   * const response = await myWindow.script('return updateText("backend action")').catch(console.error)
-   * // response == "ok"
+   * const response = await myWindow.script('return 6 + 4;').catch(console.error)
+   * // response == "10"
    * ```
    */
   script(
@@ -233,7 +213,7 @@ export class Webinix {
     const bufferSize =
       (options?.bufferSize !== undefined && options.bufferSize > 0)
         ? options.bufferSize
-        : 1024 * 8;
+        : 1024 * 1000;
     const buffer = new Uint8Array(bufferSize);
     const timeout = options?.timeout ?? 0;
 
@@ -257,24 +237,11 @@ export class Webinix {
   }
 
   /**
-   * Execute a JavaScript string in the UI without awaiting the result.
+   * Execute a JavaScript string in the UI without waiting for the result.
    * @param {string} script - js code to execute.
    * @example
    * ```ts
-   * const myWindow = new Webinix()
-   * myWindow.show(
-   *  `<html>
-   *    <p id="textElement"></p>
-   *     <script>
-   *      function updateText(text) {
-   *        document.getElementById('textElement').innerText = text
-   *        return 'ok'
-   *      }
-   *    </script>
-   *  </html>`
-   * )
-   *
-   * myWindow.run('updateText("backend action")')
+   * myWindow.run('alert("Hello!")')
    * ```
    */
   run(script: string) {
@@ -296,15 +263,20 @@ export class Webinix {
    * const myWindow = new Webinix();
    * myWindow.show(
    *  `<html>
+   *    <script src="webinix.js"></script>
    *    <button id="myBtn"></button>
    *    <button OnClick="alert(myBackend('Test', 123456))"></button>
    *  </html>`
    * )
    *
-   * myWindow.bind('myBtn', (e: Webinix.Event) => console.log(`${e.element} was clicked`));
+   * async function myFunc(e: Webinix.Event) {
+   *   console.log(`${e.element} was clicked`);
+   * }
+   * myWindow.bind('myBtn', myFunc);
+   * 
    * myWindow.bind('myBackend', (e: Webinix.Event) => {
-   *    const myArg1 = e.arg.string(0)
-   *    const myArg2 = e.arg.number(1)
+   *    const myArg1 = e.arg.string(0) // Test
+   *    const myArg2 = e.arg.number(1) // 123456
    *    return "backend response"
    * });
    * ```
@@ -362,7 +334,7 @@ export class Webinix {
         };
 
         // Call the user callback
-        const result = await callback(e) as string;
+        const result: string = await callback(e) as string;
 
         // Send back the response
         this.#lib.symbols.webinix_interface_set_response(
@@ -396,6 +368,7 @@ export class Webinix {
    *
    * myWindow.show(
    *  `<html>
+   *     <script src="webinix.js">/script>
    *     <script src="app.js"></script>
    *     <img src="img.png" />
    *  </html>`
@@ -467,7 +440,7 @@ export class Webinix {
    * @exemple
    * ```ts
    * const myWindow = new Webinix()
-   * myWindow.show(`<html>Your Page</html>`)
+   * myWindow.show(`<html><script src="webinix.js">/script> Your Page... </html>`)
    * 
    * await Webinix.wait() // Async wait until all windows are closed
    * 
@@ -475,11 +448,6 @@ export class Webinix {
    * ```
    */
   static async wait() {
-    // Wait for all opened lib to resolve
-    // for (const lib of libs.values()) {
-    //   await lib.symbols.webinix_wait();
-    // }
-
     // TODO:
     // The `await lib.symbols.webinix_wait()` will block `callbackResource`
     // so all events (clicks) will be executed when `webinix_wait()` finish.
@@ -489,10 +457,9 @@ export class Webinix {
     while (!leave) {
       await sleep(10);
       leave = true;
-      for (const lib of libs.values()) {
-        if (lib.symbols.webinix_interface_is_app_running()) {
-          leave = false;
-        }
+      let lib = loadLib();
+      if (lib.symbols.webinix_interface_is_app_running()) {
+        leave = false;
       }
     }
   }

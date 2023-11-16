@@ -1,123 +1,13 @@
+// Deno Webinix
 // FFI (Foreign Function Interface) for webinix.ts
 
 import {
-  webinixLinuxClangX64,
-  webinixLinuxGccAarch64,
-  webinixLinuxGccArm,
-  webinixLinuxGccX64,
-  webinixMacosClangArm64,
-  webinixMacosClangX64,
-  webinixWindowsGccX64,
-  webinixWindowsMsvcX64,
+  libName,
 } from "../deps.ts";
-import { b64ToBuffer, writeLib } from "./utils.ts";
-export function loadLib(
-  { libPath, clearCache }: { libPath?: string; clearCache: boolean },
-) {
-  // Determine the library name based
-  // on the current operating system
-  const libName = (() => {
-    let fileName = "";
-    switch (Deno.build.os) {
-      case "windows":
-        switch (Deno.build.arch) {
-          case "x86_64":
-            fileName = "webinix-windows-msvc-x64/webinix-2.dll";
-            break;
-          default:
-            throw new Error(
-              `Unsupported architecture ${Deno.build.arch} for Windows`,
-            );
-        }
-        break;
-      case "darwin":
-        switch (Deno.build.arch) {
-          case "x86_64":
-            fileName = "webinix-macos-clang-x64/webinix-2.dylib";
-            break;
-          // case "arm64":
-          //   fileName = "webinix-macos-clang-arm64/webinix-2.dylib";
-          //   break;
-          case "aarch64":
-            fileName = "webinix-macos-clang-arm64/webinix-2.dylib";
-            break;
-          default:
-            throw new Error(
-              `Unsupported architecture ${Deno.build.arch} for Darwin`,
-            );
-        }
-        break;
-      default:
-        // Assuming Linux for default
-        switch (Deno.build.arch) {
-          case "x86_64":
-            fileName = "webinix-linux-gcc-x64/webinix-2.so";
-            break;
-          // case "arm":
-          //   fileName = "webinix-linux-gcc-arm/webinix-2.so";
-          //   break;
-          case "aarch64":
-            fileName = "webinix-linux-gcc-aarch64/webinix-2.so";
-            break;
-          default:
-            throw new Error(
-              `Unsupported architecture ${Deno.build.arch} for Linux`,
-            );
-        }
-        break;
-    }
-    return fileName;
-  })();
 
-  const libBuffer = (() => {
-    if (libPath === undefined) {
-      switch (Deno.build.os) {
-        case "windows":
-          switch (Deno.build.arch) {
-            case "x86_64":
-              return b64ToBuffer(webinixWindowsMsvcX64.b64);
-            default:
-              throw new Error(
-                `Unsupported architecture ${Deno.build.arch} for Windows`,
-              );
-          }
-        case "darwin":
-          switch (Deno.build.arch) {
-            case "x86_64":
-              return b64ToBuffer(webinixMacosClangX64.b64);
-            case "aarch64":
-              return b64ToBuffer(webinixMacosClangArm64.b64);
-            // case "arm64":
-            //   return b64ToBuffer(webinixMacosClangArm64.b64);
-            default:
-              throw new Error(
-                `Unsupported architecture ${Deno.build.arch} for Darwin`,
-              );
-          }
-        default:
-          // Assuming Linux for default
-          switch (Deno.build.arch) {
-            case "x86_64":
-              return b64ToBuffer(webinixLinuxGccX64.b64);
-            // case "arm":
-            //   return b64ToBuffer(webinixLinuxGccArm.b64);
-            case "aarch64":
-              return b64ToBuffer(webinixLinuxGccArm.b64);
-            default:
-              throw new Error(
-                `Unsupported architecture ${Deno.build.arch} for Linux`,
-              );
-          }
-      }
-    }
-    return new Uint8Array();
-  })();
-
-  // Use user defined lib or cached one
-  const libFullPath = libPath ?? writeLib(libName, libBuffer, clearCache);
-
+export function loadLib() {
   return Deno.dlopen(
-    libFullPath,
+    libName,
     {
       webinix_wait: {
         // void webinix_wait(void)

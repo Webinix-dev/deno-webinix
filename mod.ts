@@ -1,5 +1,5 @@
 /**
- * # Webinix
+ * # Deno Webinix
  *
  * > Use any web browser as GUI, with Deno in the backend and HTML5 in the
  * > frontend, all in a lightweight Deno module.
@@ -13,16 +13,13 @@
  * - Using private profile for safety
  * - Original library written in Pure C
  *
- * ## Installation
- * `import { Webinix } from "https://deno.land/x/webinix/mod.ts";`
- *
  * ## Minimal Example
  *
  * ```ts
  * import { Webinix } from "https://deno.land/x/webinix/mod.ts";
  *
  * const myWindow = new Webinix();
- * myWindow.show( "<html><head><script src=\"webinix.js\"></script></head> Hello World ! </html>" );
+ * myWindow.show("<html><script src=\"webinix.js\"></script> Hello World! </html>");
  * await Webinix.wait();
  * ```
  *
