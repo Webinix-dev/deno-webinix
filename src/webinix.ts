@@ -23,6 +23,9 @@ import { fromCString, toCString, WebinixError } from "./utils.ts";
 // Register windows to bind instance to Webinix.Event
 const windows: Map<Usize, Webinix> = new Map();
 
+// Global lib entry
+let _lib: WebinixLib;
+
 export class Webinix {
   #window: Usize;
   #lib: WebinixLib;
@@ -40,6 +43,11 @@ export class Webinix {
     this.#lib = loadLib();
     this.#window = this.#lib.symbols.webinix_new_window();
     windows.set(this.#window, this);
+    // Global lib entry
+    if (typeof _lib === 'undefined') {
+      // The ref _lib is used by static members like `wait()`
+      _lib = this.#lib;
+    }
   }
 
   /**
@@ -185,8 +193,7 @@ export class Webinix {
    * ```
    */
   static exit() {
-    let lib = loadLib();
-    lib.symbols.webinix_exit();
+    _lib.symbols.webinix_exit();
   }
 
   /**
@@ -431,7 +438,7 @@ export class Webinix {
    * Clean all memory resources. Webinix is not usable after this call.
    */
   clean() {
-    this.#lib.symbols.webinix_clean();
+    _lib.symbols.webinix_clean();
   }
 
   /**
@@ -449,17 +456,14 @@ export class Webinix {
    */
   static async wait() {
     // TODO:
-    // The `await lib.symbols.webinix_wait()` will block `callbackResource`
+    // The `await _lib.symbols.webinix_wait()` will block `callbackResource`
     // so all events (clicks) will be executed when `webinix_wait()` finish.
     // as a work around, we are going to use `sleep()`.
     let sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
-    let leave = false;
-    while (!leave) {
-      await sleep(10);
-      leave = true;
-      let lib = loadLib();
-      if (lib.symbols.webinix_interface_is_app_running()) {
-        leave = false;
+    while (1) {
+      await sleep(100);
+      if (!_lib.symbols.webinix_interface_is_app_running()) {
+        break;
       }
     }
   }
