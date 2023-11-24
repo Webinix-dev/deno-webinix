@@ -49,16 +49,13 @@ is written in Deno using Webinix as the GUI library.
 import { Webinix } from "https://deno.land/x/webinix/mod.ts";
 
 const myWindow = new Webinix();
-webinix.show("<html><script src="webinix.js"></script> Hello World! </html>");
+myWindow.show('<html><script src="webinix.js"></script> Hello World! </html>');
 await Webinix.wait();
 ```
 
-## Examples
-
-- Hello world example:
-  ```sh
-  deno run --allow-all --unstable hello_world.ts
-  ```
+```sh
+deno run --allow-all --unstable minimal.ts
+```
 
 [More examples](https://github.com/webinix-dev/deno-webinix/tree/main/examples)
 

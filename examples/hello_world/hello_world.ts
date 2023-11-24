@@ -1,11 +1,11 @@
 // To run this script:
 // deno run --allow-all --unstable hello_world.ts
 
-// Import from local
-import { Webinix } from "../../mod.ts";
+// Import from local (Debugging and Development)
+// import { Webinix } from "../../mod.ts";
 
-// Import from deno.land
-// import { Webinix } from "https://deno.land/x/webinix/mod.ts";
+// Import from deno.land (Production)
+import { Webinix } from "https://deno.land/x/webinix/mod.ts";
 
 const myHtml = `
 <!DOCTYPE html>
