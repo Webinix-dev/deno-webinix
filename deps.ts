@@ -17,10 +17,10 @@ async function getLibName() {
         case "x86_64":
           fileName = "webinix-windows-msvc-x64/webinix-2.dll";
           break;
-        case "arm":
-          fileName = "webinix-windows-msvc-arm/webinix-2.dll";
-          break;
-        case "arm64":
+        // case "arm":
+        //   fileName = "webinix-windows-msvc-arm/webinix-2.dll";
+        //   break;
+        // case "arm64":
         case "aarch64":
           fileName = "webinix-windows-msvc-arm64/webinix-2.dll";
           break;
@@ -35,10 +35,10 @@ async function getLibName() {
         case "x86_64":
           fileName = "webinix-macos-clang-x64/webinix-2.dylib";
           break;
-        case "arm":
-          fileName = "webinix-macos-clang-arm/webinix-2.dylib";
-          break;
-        case "arm64":
+        // case "arm":
+        //   fileName = "webinix-macos-clang-arm/webinix-2.dylib";
+        //   break;
+        // case "arm64":
         case "aarch64":
           fileName = "webinix-macos-clang-arm64/webinix-2.dylib";
           break;
@@ -49,21 +49,26 @@ async function getLibName() {
       }
       break;
     default:
-      // Assuming Linux for default
+      // Linux
+      // freebsd
+      // netbsd
+      // aix
+      // solaris
+      // illumos
       switch (Deno.build.arch) {
         case "x86_64":
           fileName = "webinix-linux-gcc-x64/webinix-2.so";
           break;
-        case "arm":
-          fileName = "webinix-linux-gcc-arm/webinix-2.so";
-          break;
-        case "arm64":
+        // case "arm":
+        //   fileName = "webinix-linux-gcc-arm/webinix-2.so";
+        //   break;
+        // case "arm64":
         case "aarch64":
           fileName = "webinix-linux-gcc-arm64/webinix-2.so";
           break;
         default:
           throw new Error(
-            `Unsupported architecture ${Deno.build.arch} for Linux`,
+            `Unsupported architecture ${Deno.build.arch} for ${Deno.build.os}`,
           );
       }
       break;

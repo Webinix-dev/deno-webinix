@@ -1,6 +1,6 @@
 <div align="center">
 
-![Logo](https://github.com/webinix-dev/deno-webinix/assets/34311583/c92e712f-0698-486a-a460-d4acea28a4f8)
+![Logo](img/webinix.png)
 
 # Deno Webinix v2.4.0
 
@@ -14,7 +14,7 @@
 
 > Webinix is not a web-server solution or a framework, but it allows you to use any web browser as a GUI, with your preferred language in the backend and HTML5 in the frontend. All in a lightweight portable lib.
 
-![Screenshot](https://github.com/webinix-dev/webinix/assets/34311583/57992ef1-4f7f-4d60-8045-7b07df4088c6)
+![Screenshot](img/screenshot.png)
 
 </div>
 
@@ -34,7 +34,7 @@
 
 ## Screenshot
 
-This [text editor example](https://github.com/webinix-dev/deno-webinix/tree/main/examples)
+This [hello world example](https://github.com/webinix-dev/deno-webinix/tree/main/examples/hello_world)
 is written in Deno using Webinix as the GUI library.
 
 ![ScreenShot](img/webinix_deno_example.png)
@@ -49,7 +49,7 @@ is written in Deno using Webinix as the GUI library.
 import { Webinix } from "https://deno.land/x/webinix/mod.ts";
 
 const myWindow = new Webinix();
-webinix.show("<html>Hello World</html>");
+webinix.show("<html><script src="webinix.js"></script> Hello World! </html>");
 await Webinix.wait();
 ```
 
@@ -57,30 +57,10 @@ await Webinix.wait();
 
 - Hello world example:
   ```sh
-  deno run -A --unstable https://deno.land/x/webinix/examples/hello_world/hello_world.ts
+  deno run --allow-all --unstable hello_world.ts
   ```
 
 [More examples](https://github.com/webinix-dev/deno-webinix/tree/main/examples)
-
-## Security flags
-
-Minimal required flags for running the module are:
-
-| flag        | value                                  | purpose                                  |
-| ----------- | -------------------------------------- | ---------------------------------------- |
-| unstable    | NA                                     | FFI UnsafePointer and UnsafeCallback use |
-| allow-env   | USERPROFILE (windows) or HOME (others) | Caching dynamic library                  |
-| allow-write | ~/.deno_webinix                          | Saving cache                             |
-| allow-read  | ~/.deno_webinix                          | Opening cache                            |
-| allow-ffi   | ~/.deno_webinix (unstable so allow all)  | Using FFI                                |
-
-Example:
-
-```sh
-deno run --unstable --allow-env=HOME --allow-ffi --allow-read=~/.deno_webinix --allow-write=~/.deno_webinix https://deno.land/x/webinix/examples/hello_world/hello_world.ts
-```
-
-You can see all permissions prompt by using `deno run` without any.
 
 ## Documentation
 
