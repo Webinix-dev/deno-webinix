@@ -3,7 +3,6 @@ SETLOCAL
 
 :: This script downloads the trusted Webinix compiled library by GitHub CI for Windows.
 
-SET "BASE_URL=https://github.com/webinix-dev/webinix/releases/download/2.4.0/"
 IF "%1"=="minimal" (
     goto MINIMAL
 )
@@ -17,20 +16,20 @@ echo.
 mkdir "cache" 2>nul 1>nul
 
 :: Nightly Build
-SET "LINUX_ARM=https://github.com/webinix-dev/webinix/releases/download/nightly/webinix-linux-gcc-arm.zip"
-SET "LINUX_ARM64=https://github.com/webinix-dev/webinix/releases/download/nightly/webinix-linux-gcc-arm64.zip"
-SET "LINUX_X64=https://github.com/webinix-dev/webinix/releases/download/nightly/webinix-linux-gcc-x64.zip"
-SET "MACOS_ARM64=https://github.com/webinix-dev/webinix/releases/download/nightly/webinix-macos-clang-arm64.zip"
-SET "MACOS_X64=https://github.com/webinix-dev/webinix/releases/download/nightly/webinix-macos-clang-x64.zip"
-SET "WINDOWS_MSVC_X64=https://github.com/webinix-dev/webinix/releases/download/nightly/webinix-windows-msvc-x64.zip"
+:: SET "LINUX_ARM=https://github.com/webinix-dev/webinix/releases/download/nightly/webinix-linux-gcc-arm.zip"
+:: SET "LINUX_ARM64=https://github.com/webinix-dev/webinix/releases/download/nightly/webinix-linux-gcc-arm64.zip"
+:: SET "LINUX_X64=https://github.com/webinix-dev/webinix/releases/download/nightly/webinix-linux-gcc-x64.zip"
+:: SET "MACOS_ARM64=https://github.com/webinix-dev/webinix/releases/download/nightly/webinix-macos-clang-arm64.zip"
+:: SET "MACOS_X64=https://github.com/webinix-dev/webinix/releases/download/nightly/webinix-macos-clang-x64.zip"
+:: SET "WINDOWS_MSVC_X64=https://github.com/webinix-dev/webinix/releases/download/nightly/webinix-windows-msvc-x64.zip"
 
 :: Release
-:: SET "LINUX_ARM=https://github.com/webinix-dev/webinix/releases/download/2.4.0/webinix-linux-gcc-arm.zip"
-:: SET "LINUX_ARM64=https://github.com/webinix-dev/webinix/releases/download/2.4.0/webinix-linux-gcc-arm64.zip"
-:: SET "LINUX_X64=https://github.com/webinix-dev/webinix/releases/download/2.4.0/webinix-linux-gcc-x64.zip"
-:: SET "MACOS_ARM64=https://github.com/webinix-dev/webinix/releases/download/2.4.0/webinix-macos-clang-arm64.zip"
-:: SET "MACOS_X64=https://github.com/webinix-dev/webinix/releases/download/2.4.0/webinix-macos-clang-x64.zip"
-:: SET "WINDOWS_MSVC_X64=https://github.com/webinix-dev/webinix/releases/download/2.4.0/webinix-windows-msvc-x64.zip"
+SET "LINUX_ARM=https://github.com/webinix-dev/webinix/releases/download/2.4.1/webinix-linux-gcc-arm.zip"
+SET "LINUX_ARM64=https://github.com/webinix-dev/webinix/releases/download/2.4.1/webinix-linux-gcc-arm64.zip"
+SET "LINUX_X64=https://github.com/webinix-dev/webinix/releases/download/2.4.1/webinix-linux-gcc-x64.zip"
+SET "MACOS_ARM64=https://github.com/webinix-dev/webinix/releases/download/2.4.1/webinix-macos-clang-arm64.zip"
+SET "MACOS_X64=https://github.com/webinix-dev/webinix/releases/download/2.4.1/webinix-macos-clang-x64.zip"
+SET "WINDOWS_MSVC_X64=https://github.com/webinix-dev/webinix/releases/download/2.4.1/webinix-windows-msvc-x64.zip"
 
 :: Download and extract archives
 CALL :DOWNLOAD_AND_EXTRACT %LINUX_ARM% webinix-linux-gcc-arm webinix-2.so
@@ -73,6 +72,8 @@ GOTO :EOF
 :: --- Minimal ----------------------------------
 :: Download Webinix library for only the current OS.
 :MINIMAL
+
+SET "BASE_URL=https://github.com/webinix-dev/webinix/releases/download/2.4.1/"
 
 :: Check the CPU architecture
 IF "%PROCESSOR_ARCHITECTURE%"=="x86" (

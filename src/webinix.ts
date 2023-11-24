@@ -1,5 +1,5 @@
 /*
-  Webinix Library 2.4.0
+  Webinix Library 2.4.1
 
   http://webinix.me
   https://github.com/webinix-dev/deno-webinix
@@ -476,7 +476,7 @@ export class Webinix {
   }
 
   static get version() {
-    return "2.4.0";
+    return "2.4.1";
   }
 }
 

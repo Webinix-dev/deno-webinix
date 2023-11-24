@@ -13,19 +13,20 @@ if [[ "$1" == "" ]]; then
     mkdir -p "cache" 2>/dev/null
 
     # Nightly Build
-    LINUX_ARM="https://github.com/webinix-dev/webinix/releases/download/nightly/webinix-linux-gcc-arm.zip"
-    LINUX_ARM64="https://github.com/webinix-dev/webinix/releases/download/nightly/webinix-linux-gcc-arm64.zip"
-    LINUX_X64="https://github.com/webinix-dev/webinix/releases/download/nightly/webinix-linux-gcc-x64.zip"
-    MACOS_ARM64="https://github.com/webinix-dev/webinix/releases/download/nightly/webinix-macos-clang-arm64.zip"
-    MACOS_X64="https://github.com/webinix-dev/webinix/releases/download/nightly/webinix-macos-clang-x64.zip"
-    WINDOWS_MSVC_X64="https://github.com/webinix-dev/webinix/releases/download/nightly/webinix-windows-msvc-x64.zip"
+    # LINUX_ARM="https://github.com/webinix-dev/webinix/releases/download/nightly/webinix-linux-gcc-arm.zip"
+    # LINUX_ARM64="https://github.com/webinix-dev/webinix/releases/download/nightly/webinix-linux-gcc-arm64.zip"
+    # LINUX_X64="https://github.com/webinix-dev/webinix/releases/download/nightly/webinix-linux-gcc-x64.zip"
+    # MACOS_ARM64="https://github.com/webinix-dev/webinix/releases/download/nightly/webinix-macos-clang-arm64.zip"
+    # MACOS_X64="https://github.com/webinix-dev/webinix/releases/download/nightly/webinix-macos-clang-x64.zip"
+    # WINDOWS_MSVC_X64="https://github.com/webinix-dev/webinix/releases/download/nightly/webinix-windows-msvc-x64.zip"
+
     # Release
-    # LINUX_ARM="https://github.com/webinix-dev/webinix/releases/download/2.4.0/webinix-linux-gcc-arm.zip"
-    # LINUX_ARM64="https://github.com/webinix-dev/webinix/releases/download/2.4.0/webinix-linux-gcc-arm64.zip"
-    # LINUX_X64="https://github.com/webinix-dev/webinix/releases/download/2.4.0/webinix-linux-gcc-x64.zip"
-    # MACOS_ARM64="https://github.com/webinix-dev/webinix/releases/download/2.4.0/webinix-macos-clang-arm64.zip"
-    # MACOS_X64="https://github.com/webinix-dev/webinix/releases/download/2.4.0/webinix-macos-clang-x64.zip"
-    # WINDOWS_MSVC_X64="https://github.com/webinix-dev/webinix/releases/download/2.4.0/webinix-windows-msvc-x64.zip"
+    LINUX_ARM="https://github.com/webinix-dev/webinix/releases/download/2.4.1/webinix-linux-gcc-arm.zip"
+    LINUX_ARM64="https://github.com/webinix-dev/webinix/releases/download/2.4.1/webinix-linux-gcc-arm64.zip"
+    LINUX_X64="https://github.com/webinix-dev/webinix/releases/download/2.4.1/webinix-linux-gcc-x64.zip"
+    MACOS_ARM64="https://github.com/webinix-dev/webinix/releases/download/2.4.1/webinix-macos-clang-arm64.zip"
+    MACOS_X64="https://github.com/webinix-dev/webinix/releases/download/2.4.1/webinix-macos-clang-x64.zip"
+    WINDOWS_MSVC_X64="https://github.com/webinix-dev/webinix/releases/download/2.4.1/webinix-windows-msvc-x64.zip"
 
     # Download and extract archives
     download_and_extract() {
@@ -65,9 +66,10 @@ if [[ "$1" == "minimal" ]]; then
     # Download Webinix library for only the current OS.
 
     # Nightly Build
-    BASE_URL="https://github.com/webinix-dev/webinix/releases/download/nightly/"
+    # BASE_URL="https://github.com/webinix-dev/webinix/releases/download/nightly/"
+
     # Release
-    # BASE_URL="https://github.com/webinix-dev/webinix/releases/download/2.4.0/"
+    BASE_URL="https://github.com/webinix-dev/webinix/releases/download/2.4.1/"
 
     # Detect OS (macOS / Linux)
     OS="linux"
