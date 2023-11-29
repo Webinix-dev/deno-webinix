@@ -51,6 +51,34 @@ export class Webinix {
   }
 
   /**
+   * Set root folder for proper loading resources
+   * @param rootFolder Root folder to set
+   * @throws {WebinixError} - If lib return false status.
+   * @example
+   * ```ts
+   * const myWindow = new Webinix()
+   *
+   * // Show the current time
+   * myWindow.setRootFolder('some/root/folder')
+   *
+   * // Show a local file
+   * await myWindow.show('some/root/folder/index.html')
+   *
+   * // Await to ensure Webinix.script and Webinix.run can send datas to the client
+   * console.assert(myWindow.isShown, true)
+   * ```
+   */
+  setRootFolder(rootFolder: string) {
+    const status = this.#lib.symbols.webinix_set_root_folder(
+        this.#window,
+        toCString(rootFolder),
+    );
+    if (!status) {
+      throw new WebinixError(`unable to set root folder`);
+    }
+  }
+
+  /**
    * Show the window or update the UI with the new content.
    * @returns Promise that resolves when the client bridge is linked.
    * @param {string} content - Valid html content or same root file path.

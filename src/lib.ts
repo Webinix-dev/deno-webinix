@@ -105,6 +105,11 @@ export function loadLib() {
         parameters: [],
         result: "void",
       },
+      webinix_set_root_folder: {
+          // bool webinix_set_root_folder(size_t window, const char* path)
+          parameters: ["usize", "buffer"],
+          result: "bool",
+      },
     } as const,
   );
 }
