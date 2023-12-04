@@ -1,6 +1,9 @@
 // Deno Webinix
 // Utilities
 
+// The Webinix core version to download
+const WebinixCoreVersion = '2.4.2';
+
 // Combine paths
 function joinPath(...segments: string[]): string {
   const isWindows = Deno.build.os === "windows";
@@ -96,7 +99,7 @@ export async function fileExists(filePath: string) {
 
 export async function downloadCoreLibrary() {
   // Base URL
-  const baseUrl = "https://github.com/webinix-dev/webinix/releases/download/2.4.1/";
+  const baseUrl = `https://github.com/webinix-dev/webinix/releases/download/${WebinixCoreVersion}/`;
   // Detect OS
   let os, cc, ext, arch;
   switch (Deno.build.os) {
