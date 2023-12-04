@@ -79,39 +79,6 @@ export class Webinix {
   }
 
   /**
-   * Set certificate
-   * @param certificatePem Set certificate
-   * @param privateKeyPem Set private key
-   * @throws {WebinixError} - If lib return false status.
-   * @example
-   * ```ts
-   * const myWindow = new Webinix()
-   *
-   * // Show the current time
-   * myWindow.setRootFolder('some/root/folder')
-   *
-   * const certificatePem = await Deno.readTextFile("some/root/certificate.pem");
-   * const privateKeyPem = await Deno.readTextFile("some/root/private_key.pem");
-   * Webinix.setTLSCertificate(certificatePem, privateKeyPem);
-   *
-   * // Show a local file
-   * await myWindow.show('some/root/folder/index.html')
-   *
-   * // Await to ensure Webinix.script and Webinix.run can send datas to the client
-   * console.assert(myWindow.isShown, true)
-   * ```
-   */
-  static setTLSCertificate(certificatePem: string, privateKeyPem: string) {
-    const status = _lib.symbols.webinix_set_tls_certificate(
-        toCString(certificatePem),
-        toCString(privateKeyPem),
-    );
-    if (!status) {
-      throw new WebinixError(`unable to set certificate`);
-    }
-  }
-
-  /**
    * Show the window or update the UI with the new content.
    * @returns Promise that resolves when the client bridge is linked.
    * @param {string} content - Valid html content or same root file path.
@@ -235,26 +202,6 @@ export class Webinix {
    */
   close() {
     return this.#lib.symbols.webinix_close(this.#window);
-  }
-
-  /**
-   * Tries to close all opened windows and make Webinix.wait() break.
-   * @example
-   * ```ts
-   * const myWindow1 = new Webinix()
-   * const myWindow2 = new Webinix()
-   *
-   * myWindow1.show(`<html><script src="webinix.js">/script> <p>View 1</p> </html>`)
-   * myWindow2.show(`<html><script src="webinix.js"></script> <p>View 2</p> </html>`)
-   *
-   * Webinix.exit()
-   *
-   * myWindow1.isShown // false
-   * myWindow2.isShown // false
-   * ```
-   */
-  static exit() {
-    _lib.symbols.webinix_exit();
   }
 
   /**
@@ -438,7 +385,7 @@ export class Webinix {
    * myWindow.setFileHandler((myUrl: URL) => {
    *  if (myUrl.pathname === '/app.js') return "console.log('hello from client')"
    *  if (myUrl.pathname === '/img.png') return imgBytes
-   *  throw new Error(`uknown request "${myUrl.pathname}""`)
+   *  throw new Error(`Unknown request "${myUrl.pathname}""`)
    * })
    *
    * myWindow.show(
@@ -464,6 +411,7 @@ export class Webinix {
           ? new Deno.UnsafePointerView(pointerUrl).getCString()
           : "";
 
+        // const winUrl: string = this.getUrl();
         const response = handler(new URL(url, "http://localhost"));
         const buffer = typeof response === "string"
           ? toCString(response)
@@ -503,10 +451,206 @@ export class Webinix {
   }
 
   /**
-   * Clean all memory resources. Webinix is not usable after this call.
+   * Set the kiosk mode of a Webinix window.
+   * 
+   * @param status - True to enable kiosk mode, false to disable.
+   * @example
+   * ```ts
+   * const myWindow = new Webinix();
+   * myWindow.setKiosk(true);
+   * ```
    */
-  clean() {
-    _lib.symbols.webinix_clean();
+  setKiosk(status: boolean): void {
+    this.#lib.symbols.webinix_set_kiosk(this.#window, status);
+  }
+
+  /**
+   * Close a specific window and free all memory resources.
+   */
+  destroy(): void {
+    this.#lib.symbols.webinix_destroy(this.#window);
+  }
+
+  /**
+   * Set the default embedded HTML favicon.
+   * 
+   * @param icon - The icon as string: `<svg>...</svg>`
+   * @param iconType - The icon type: `image/svg+xml`
+   */
+  setIcon(icon: string, iconType: string): void {
+    this.#lib.symbols.webinix_set_icon(this.#window, toCString(icon), toCString(iconType));
+  }
+
+  /**
+   * Safely send raw data to the UI.
+   * 
+   * @param functionName - The name of the function to send data to.
+   * @param raw - The raw data to send.
+   */
+  sendRaw(functionName: string, raw: ArrayBuffer): void {
+    this.#lib.symbols.webinix_send_raw(this.#window, toCString(functionName), raw, ArrayBuffer.length);
+  }
+
+  /**
+   * Set a window in hidden mode. Should be called before `.show()`.
+   * 
+   * @param status - True to hide, false to show.
+   */
+  setHide(status: boolean): void {
+    this.#lib.symbols.webinix_set_hide(this.#window, status);
+  }
+
+  /**
+   * Set the window size.
+   * 
+   * @param width - The width of the window.
+   * @param height - The height of the window.
+   */
+  setSize(width: number, height: number): void {
+    this.#lib.symbols.webinix_set_size(this.#window, width, height);
+  }
+
+  /**
+   * Set the window position.
+   * 
+   * @param x - The x-coordinate of the window.
+   * @param y - The y-coordinate of the window.
+   */
+  setPosition(x: number, y: number): void {
+    this.#lib.symbols.webinix_set_position(this.#window, x, y);
+  }
+
+  /**
+   * Get the full current URL.
+   * 
+   * @return - The current URL.
+   */
+  getUrl(): string {
+    return (
+      new Deno.UnsafePointerView(
+        (this.#lib.symbols.webinix_get_url(this.#window) as Deno.PointerObject<unknown>)
+      ).getCString()
+    ) as string
+  }
+
+  /**
+   * Allow the window address to be accessible from a public network.
+   * 
+   * @param status - True to allow public access, false to restrict.
+   */
+  setPublic(status: boolean): void {
+    this.#lib.symbols.webinix_set_public(this.#window, status);
+  }
+
+  /**
+   * Navigate to a specific URL.
+   * 
+   * @param url - The URL to navigate to.
+   */
+  navigate(url: string): void {
+    this.#lib.symbols.webinix_navigate(this.#window, toCString(url));
+  }
+
+  /**
+   * Delete the web-browser local profile folder.
+   */
+  deleteProfile(): void {
+    this.#lib.symbols.webinix_delete_profile(this.#window);
+  }
+
+  /**
+   * Get the ID of the parent process (The web browser may re-create
+   * another new process).
+   * 
+   * @return - The parent process ID.
+   */
+  getParentProcessId(): number {
+    return this.#lib.symbols.webinix_get_parent_process_id(this.#window);
+  }
+
+  /**
+   * Get the ID of the last child process.
+   * 
+   * @return - The last child process ID.
+   */
+  getChildProcessId(): number {
+    return this.#lib.symbols.webinix_get_child_process_id(this.#window);
+  }
+
+  /**
+   * Set a custom web-server network port to be used by Webinix.
+   * This can be useful to determine the HTTP link of `webinix.js` in case
+   * you are trying to use Webinix with an external web-server like NGNIX
+   * 
+   * @param port - The port number.
+   * @return - True if the port is set successfully.
+   */
+  setPort(port: number): boolean {
+    return this.#lib.symbols.webinix_set_port(this.#window, port);
+  }
+
+  /**
+   * Chose between Deno and Nodejs as runtime for .js and .ts files.
+   * 
+   * @param runtime - The runtime value.
+   */
+  setRuntime(runtime: number): void {
+    this.#lib.symbols.webinix_set_runtime(this.#window, runtime);
+  }
+
+  // --[ Static Methods ]------------------------
+
+  /**
+   * Tries to close all opened windows and make Webinix.wait() break.
+   * @example
+   * ```ts
+   * const myWindow1 = new Webinix()
+   * const myWindow2 = new Webinix()
+   *
+   * myWindow1.show(`<html><script src="webinix.js">/script> <p>View 1</p> </html>`)
+   * myWindow2.show(`<html><script src="webinix.js"></script> <p>View 2</p> </html>`)
+   *
+   * Webinix.exit()
+   *
+   * myWindow1.isShown // false
+   * myWindow2.isShown // false
+   * ```
+   */
+  static exit() {
+    _lib.symbols.webinix_exit();
+  }
+
+  /**
+   * Set certificate
+   * @param certificatePem Set certificate
+   * @param privateKeyPem Set private key
+   * @throws {WebinixError} - If lib return false status.
+   * @example
+   * ```ts
+   * const myWindow = new Webinix()
+   *
+   * // Show the current time
+   * myWindow.setRootFolder('some/root/folder')
+   *
+   * const certificatePem = await Deno.readTextFile("some/root/certificate.pem");
+   * const privateKeyPem = await Deno.readTextFile("some/root/private_key.pem");
+   * Webinix.setTLSCertificate(certificatePem, privateKeyPem);
+   *
+   * // Show a local file
+   * await myWindow.show('some/root/folder/index.html')
+   *
+   * // Await to ensure Webinix.script and Webinix.run can send datas to the client
+   * console.assert(myWindow.isShown, true)
+   * ```
+   */
+  static setTLSCertificate(certificatePem: string, privateKeyPem: string) {
+    const status = _lib.symbols.webinix_set_tls_certificate(
+        toCString(certificatePem),
+        toCString(privateKeyPem),
+    );
+    if (!status) {
+      throw new WebinixError(`unable to set certificate`);
+    }
   }
 
   /**
@@ -534,6 +678,76 @@ export class Webinix {
         break;
       }
     }
+  }
+
+  /**
+   * Delete all local web-browser profiles folder.
+   */
+  static deleteAllProfiles(): void {
+    _lib.symbols.webinix_delete_all_profiles();
+  }
+
+  /**
+   * Base64 encoding. Use this to safely send text based data to the UI.
+   * 
+   * @param str - The string to encode.
+   * @return - The encoded string.
+   */
+  static encode(str: string): string {
+    return (
+      new Deno.UnsafePointerView(
+        (_lib.symbols.webinix_encode(toCString(str)) as Deno.PointerObject<unknown>)
+      ).getCString()
+    ) as string
+  }
+
+  /**
+   * Base64 decoding. Use this to safely decode received Base64 text from the UI.
+   * 
+   * @param str - The string to decode.
+   * @return - The decoded string.
+   */
+  static decode(str: string): string {
+    return (
+      new Deno.UnsafePointerView(
+        (_lib.symbols.webinix_decode(toCString(str)) as Deno.PointerObject<unknown>)
+      ).getCString()
+    ) as string
+  }
+
+  /**
+   * Safely allocate memory using the Webinix memory management system.
+   * 
+   * @param size - The size of the memory block to allocate.
+   * @return - A pointer to the allocated memory block.
+   */
+  static malloc(size: number): Deno.PointerValue {
+    return _lib.symbols.webinix_malloc(size);
+  }
+
+  /**
+   * Safely free a memory block allocated by Webinix.
+   * 
+   * @param ptr - The pointer to the memory block.
+   */
+  static free(ptr: Deno.PointerValue): void {
+    _lib.symbols.webinix_free(ptr);
+  }
+
+  /**
+   * Set the maximum time in seconds to wait for the browser to start.
+   * 
+   * @param second - The timeout duration in seconds.
+   */
+  static setTimeout(second: number): void {
+    _lib.symbols.webinix_set_timeout(second);
+  }
+
+  /**
+   * Clean all memory resources. Webinix is not usable after this call.
+   */
+  static clean() {
+    _lib.symbols.webinix_clean();
   }
 
   static get version() {

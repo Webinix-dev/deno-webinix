@@ -115,6 +115,111 @@ export function loadLib() {
           parameters: ["buffer", "buffer"],
           result: "bool",
       },
+      webinix_set_kiosk: {
+        // void webinix_set_kiosk(size_t window, bool status)
+        parameters: ["usize", "bool"],
+        result: "void",
+      },
+      webinix_destroy: {
+        // void webinix_destroy(size_t window)
+        parameters: ["usize"],
+        result: "void",
+      },
+      webinix_set_timeout: {
+        // void webinix_set_timeout(size_t second)
+        parameters: ["usize"],
+        result: "void",
+      },
+      webinix_set_icon: {
+        // void webinix_set_icon(size_t window, const char* icon, const char* icon_type)
+        parameters: ["usize", "buffer", "buffer"],
+        result: "void",
+      },
+      webinix_encode: {
+        // char* webinix_encode(const char* str)
+        parameters: ["buffer"],
+        result: "buffer",
+      },
+      webinix_decode: {
+        // char* webinix_decode(const char* str)
+        parameters: ["buffer"],
+        result: "buffer",
+      },
+      webinix_free: {
+        // void webinix_free(void* ptr)
+        parameters: ["pointer"],
+        result: "void",
+      },
+      webinix_malloc: {
+        // void* webinix_malloc(size_t size)
+        parameters: ["usize"],
+        result: "pointer",
+      },
+      webinix_send_raw: {
+        // void webinix_send_raw(size_t window, const char* function, const void* raw, size_t size)
+        parameters: ["usize", "buffer", "buffer", "usize"],
+        result: "void",
+      },
+      webinix_set_hide: {
+        // void webinix_set_hide(size_t window, bool status)
+        parameters: ["usize", "bool"],
+        result: "void",
+      },
+      webinix_set_size: {
+        // void webinix_set_size(size_t window, unsigned int width, unsigned int height)
+        parameters: ["usize", "u32", "u32"],
+        result: "void",
+      },
+      webinix_set_position: {
+        // void webinix_set_position(size_t window, unsigned int x, unsigned int y)
+        parameters: ["usize", "u32", "u32"],
+        result: "void",
+      },
+      webinix_get_url: {
+        // const char* webinix_get_url(size_t window)
+        parameters: ["usize"],
+        result: "buffer",
+      },
+      webinix_set_public: {
+        // void webinix_set_public(size_t window, bool status)
+        parameters: ["usize", "bool"],
+        result: "void",
+      },
+      webinix_navigate: {
+        // void webinix_navigate(size_t window, const char* url)
+        parameters: ["usize", "buffer"],
+        result: "void",
+      },
+      webinix_delete_all_profiles: {
+        // void webinix_delete_all_profiles(void)
+        parameters: [],
+        result: "void",
+      },
+      webinix_delete_profile: {
+        // void webinix_delete_profile(size_t window)
+        parameters: ["usize"],
+        result: "void",
+      },
+      webinix_get_parent_process_id: {
+        // size_t webinix_get_parent_process_id(size_t window)
+        parameters: ["usize"],
+        result: "usize",
+      },
+      webinix_get_child_process_id: {
+        // size_t webinix_get_child_process_id(size_t window)
+        parameters: ["usize"],
+        result: "usize",
+      },
+      webinix_set_port: {
+        // bool webinix_set_port(size_t window, size_t port)
+        parameters: ["usize", "usize"],
+        result: "bool",
+      },
+      webinix_set_runtime: {
+        // void webinix_set_runtime(size_t window, size_t runtime)
+        parameters: ["usize", "usize"],
+        result: "void",
+      }      
     } as const,
   );
 }
