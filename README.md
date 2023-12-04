@@ -2,7 +2,7 @@
 
 ![Logo](img/webinix.png)
 
-# Deno Webinix v2.4.3
+# Deno Webinix v2.4.4
 
 [last-commit]: https://img.shields.io/github/last-commit/webinix-dev/webinix?style=for-the-badge&logo=github&logoColor=C0CAF5&labelColor=414868
 [release-version]: https://img.shields.io/github/v/tag/webinix-dev/webinix?style=for-the-badge&logo=webtrees&logoColor=C0CAF5&labelColor=414868&color=7664C6
