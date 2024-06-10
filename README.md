@@ -54,7 +54,7 @@ await Webinix.wait();
 ```
 
 ```sh
-deno run --allow-all --unstable minimal.ts
+deno run --allow-all --unstable-ffi --allow-ffi minimal.ts
 ```
 
 [More examples](https://github.com/webinix-dev/deno-webinix/tree/main/examples)
