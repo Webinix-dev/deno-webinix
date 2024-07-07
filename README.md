@@ -1,8 +1,8 @@
 <div align="center">
 
-![Logo](img/webinix.png)
+![Logo](https://raw.githubusercontent.com/webinix-dev/webinix-logo/main/webinix_deno.png)
 
-# Deno Webinix v2.4.4
+# Deno-Webinix v2.4.4
 
 [last-commit]: https://img.shields.io/github/last-commit/webinix-dev/webinix?style=for-the-badge&logo=github&logoColor=C0CAF5&labelColor=414868
 [release-version]: https://img.shields.io/github/v/tag/webinix-dev/webinix?style=for-the-badge&logo=webtrees&logoColor=C0CAF5&labelColor=414868&color=7664C6
@@ -14,7 +14,7 @@
 
 > Webinix is not a web-server solution or a framework, but it allows you to use any web browser as a GUI, with your preferred language in the backend and HTML5 in the frontend. All in a lightweight portable lib.
 
-![Screenshot](img/screenshot.png)
+![Screenshot](https://raw.githubusercontent.com/webinix-dev/webinix-logo/main/screenshot.png)
 
 </div>
 
