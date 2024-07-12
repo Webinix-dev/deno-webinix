@@ -2,7 +2,7 @@
 // Utilities
 
 // The Webinix core version to download
-const WebinixCoreVersion = '2.4.2';
+const WebinixCoreVersion = '2.5.0-beta.2';
 
 // Combine paths
 function joinPath(...segments: string[]): string {
