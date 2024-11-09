@@ -39,6 +39,7 @@ export class Webinix {
    */
   constructor() {
     this.#lib = loadLib();
+    this.#lib.symbols.webinix_set_config(5, true); // Enable async calls
     this.#window = this.#lib.symbols.webinix_new_window();
     windows.set(this.#window, this);
     // Global lib entry
