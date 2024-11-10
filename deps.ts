@@ -11,18 +11,22 @@ import {
 // on the current operating system
 async function getLibName() {
   let fileName = "";
+  let localFileName = "";
   switch (Deno.build.os) {
     case "windows":
       switch (Deno.build.arch) {
         case "x86_64":
           fileName = "webinix-windows-msvc-x64/webinix-2.dll";
+          localFileName = "./webinix-2.dll";
           break;
         // case "arm":
         //   fileName = "webinix-windows-msvc-arm/webinix-2.dll";
+        //   localFileName = "./webinix-2.dll";
         //   break;
         // case "arm64":
         case "aarch64":
           fileName = "webinix-windows-msvc-arm64/webinix-2.dll";
+          localFileName = "./webinix-2.dll";
           break;
         default:
           throw new Error(
@@ -34,13 +38,16 @@ async function getLibName() {
       switch (Deno.build.arch) {
         case "x86_64":
           fileName = "webinix-macos-clang-x64/webinix-2.dylib";
+          localFileName = "./webinix-2.dylib";
           break;
         // case "arm":
         //   fileName = "webinix-macos-clang-arm/webinix-2.dylib";
+        //   localFileName = "./webinix-2.dylib";
         //   break;
         // case "arm64":
         case "aarch64":
           fileName = "webinix-macos-clang-arm64/webinix-2.dylib";
+          localFileName = "./webinix-2.dylib";
           break;
         default:
           throw new Error(
@@ -58,13 +65,16 @@ async function getLibName() {
       switch (Deno.build.arch) {
         case "x86_64":
           fileName = "webinix-linux-gcc-x64/webinix-2.so";
+          localFileName = "./webinix-2.so";
           break;
         // case "arm":
         //   fileName = "webinix-linux-gcc-arm/webinix-2.so";
+        //   localFileName = "./webinix-2.so";
         //   break;
         // case "arm64":
         case "aarch64":
           fileName = "webinix-linux-gcc-arm64/webinix-2.so";
+          localFileName = "./webinix-2.so";
           break;
         default:
           throw new Error(
@@ -73,6 +83,10 @@ async function getLibName() {
       }
       break;
   }
+  // Check if local file exisit
+  const localExists = await fileExists(localFileName);
+  if (localExists)
+    return localFileName;
   // Get the current module full path
   const srcFullPath = currentModulePath;
   const FullPath = srcFullPath + fileName;
