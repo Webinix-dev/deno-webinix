@@ -12,7 +12,7 @@
 [![][release-version]](https://github.com/webinix-dev/deno-webinix/releases/latest)
 [![][license]](https://github.com/webinix-dev/deno-webinix/blob/main/LICENSE)
 
-> Webinix is not a web-server solution or a framework, but it allows you to use any web browser as a GUI, with your preferred language in the backend and HTML5 in the frontend. All in a lightweight portable lib.
+> Use any web browser or WebView as GUI, with your preferred language in the backend and modern web technologies in the frontend, all in a lightweight portable library.
 
 ![Screenshot](https://raw.githubusercontent.com/webinix-dev/webinix-logo/main/screenshot.png)
 
@@ -24,13 +24,12 @@
 
 ## Features
 
-- Fully Independent (_No need for any third-party runtimes_)
-- Lightweight _~900 Kb_ for the whole package & Small memory footprint
-- Fast binary communication protocol between Webinix and the browser (_Instead of
-  JSON_)
+- Portable (*Needs only a web browser or a WebView at runtime*)
+- Lightweight (*Few Kb library*) & Small memory footprint
+- Fast binary communication protocol
 - Multi-platform & Multi-Browser
 - Using private profile for safety
-- Original library written in Pure C
+- Cross-platform WebView
 
 ## Screenshot
 
@@ -54,14 +53,14 @@ await Webinix.wait();
 ```
 
 ```sh
-deno run --allow-all --unstable-ffi --allow-ffi minimal.ts
+deno run --allow-read --allow-write --allow-run --allow-net --allow-ffi minimal.ts
 ```
 
 [More examples](https://github.com/webinix-dev/deno-webinix/tree/main/examples)
 
 ## Documentation
 
-- [Online Documentation](https://webinix.me/docs/#/deno_api)
+- [Online Documentation](https://webinix.me/docs/2.5/#/)
 
 ## CppCon 2019 Presentation
 
@@ -108,7 +107,7 @@ browser**.
 
 ## Runtime Dependencies Comparison
 
-|                                 | WebView           | Qt                         | Webinix               |
+|                                 | Tauri / WebView   | Qt                         | Webinix               |
 | ------------------------------- | ----------------- | -------------------------- | ------------------- |
 | Runtime Dependencies on Windows | _WebView2_        | _QtCore, QtGui, QtWidgets_ | **_A Web Browser_** |
 | Runtime Dependencies on Linux   | _GTK3, WebKitGTK_ | _QtCore, QtGui, QtWidgets_ | **_A Web Browser_** |
@@ -131,17 +130,35 @@ browser**.
 
 ## Supported Languages
 
-| Language                | Status         | Link                                                      |
-| ----------------------- | -------------- | --------------------------------------------------------- |
-| Go                      | ✔️             | [Go-Webinix](https://github.com/webinix-dev/go-webinix)         |
-| Nim                     | ✔️             | [Nim-Webinix](https://github.com/webinix-dev/nim-webinix)       |
-| Pascal                  | ✔️             | [Pascal-Webinix](https://github.com/webinix-dev/pascal-webinix) |
-| Python                  | ✔️             | [Python-Webinix](https://github.com/webinix-dev/python-webinix) |
-| Rust                    | _not complete_ | [Rust-Webinix](https://github.com/webinix-dev/rust-webinix)     |
-| TypeScript / JavaScript | ✔️             | [Deno-Webinix](https://github.com/webinix-dev/deno-webinix)     |
-| V                       | ✔️             | [V-Webinix](https://github.com/webinix-dev/v-webinix)           |
-| Zig                     | _not complete_ | [Zig-Webinix](https://github.com/webinix-dev/zig-webinix)       |
-| Odin                    | _not complete_ | [Odin-Webinix](https://github.com/webinix-dev/odin-webinix)       |
+| Language        | v2.4.0 API | v2.5.0 API | Link                                                    |
+| --------------- | --- | -------------- | ---------------------------------------------------------  |
+| Python          | ✔️ | _not complete_ | [Python-Webinix](https://github.com/webinix-dev/python-webinix)  |
+| Go              | ✔️ | _not complete_ | [Go-Webinix](https://github.com/webinix-dev/go-webinix)          |
+| Zig             | ✔️ |  _not complete_ | [Zig-Webinix](https://github.com/webinix-dev/zig-webinix)        |
+| Nim             | ✔️ |  _not complete_ | [Nim-Webinix](https://github.com/webinix-dev/nim-webinix)        |
+| V               | ✔️ |  _not complete_ | [V-Webinix](https://github.com/webinix-dev/v-webinix)            |
+| Rust            | _not complete_ |  _not complete_ | [Rust-Webinix](https://github.com/webinix-dev/rust-webinix)      |
+| TS / JS (Deno)  | ✔️ |  _not complete_ | [Deno-Webinix](https://github.com/webinix-dev/deno-webinix)      |
+| TS / JS (Bun)   | _not complete_ |  _not complete_ | [Bun-Webinix](https://github.com/webinix-dev/bun-webinix)        |
+| Swift           | _not complete_ |  _not complete_ | [Swift-Webinix](https://github.com/webinix-dev/swift-webinix)    |
+| Odin            | _not complete_ |  _not complete_ | [Odin-Webinix](https://github.com/webinix-dev/odin-webinix)      |
+| Pascal          | _not complete_ |  _not complete_ | [Pascal-Webinix](https://github.com/webinix-dev/pascal-webinix)  |
+| Purebasic       | _not complete_ |  _not complete_ | [Purebasic-Webinix](https://github.com/webinix-dev/purebasic-webinix)|
+| - |  |  |
+| Common Lisp     | _not complete_ |  _not complete_ | [cl-webinix](https://github.com/garlic0x1/cl-webinix)          |
+| Delphi          | _not complete_ |  _not complete_ | [Webinix4Delphi](https://github.com/salvadordf/Webinix4Delphi) |
+| C#              | _not complete_ |  _not complete_ | [Webinix4CSharp](https://github.com/salvadordf/Webinix4CSharp) |
+| Webinix.NET       | _not complete_ |  _not complete_ | [Webinix.NET](https://github.com/Juff-Ma/Webinix.NET)          |
+| QuickJS         | _not complete_ |  _not complete_ | [QuickUI](https://github.com/xland/QuickUI)                |
+| PHP             | _not complete_ |  _not complete_ | [PHPWebUiComposer](https://github.com/KingBes/php-webinix-composer) |
+
+## Supported WebView
+
+| WebView         | Status         |
+| --------------- | --------------- |
+| Windows WebView2 | ✔️ |
+| Linux GTK WebView   | ✔️ |
+| macOS WKWebView  | ✔️ |
 
 ### License
 
