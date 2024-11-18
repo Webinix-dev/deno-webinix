@@ -40,12 +40,14 @@ is written in Deno using Webinix as the GUI library.
 
 ## Installation
 
-`import { Webinix } from "https://deno.land/x/webinix/mod.ts";`
+Specific version: `import { Webinix } from "https://deno.land/x/webinix@2.5.0/mod.ts";`
+
+Latest version: `import { Webinix } from "https://deno.land/x/webinix/mod.ts";`
 
 ## Minimal Example
 
 ```js
-import { Webinix } from "https://deno.land/x/webinix/mod.ts";
+import { Webinix } from "https://deno.land/x/webinix@2.5.0/mod.ts";
 
 const myWindow = new Webinix();
 myWindow.show('<html><script src="webinix.js"></script> Hello World! </html>');
