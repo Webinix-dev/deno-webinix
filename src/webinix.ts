@@ -692,7 +692,7 @@ export class Webinix {
    * 
    * @param allow - True or False.
    */
-  static setMultiClient(allow: Boolean): void {
+  static setMultiClient(allow: boolean): void {
     Webinix.init();
     _lib.symbols.webinix_set_config(BigInt(3), allow);
   }
