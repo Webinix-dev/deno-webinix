@@ -38,15 +38,10 @@ export class Webinix {
    * ```
    */
   constructor() {
-    this.#lib = loadLib();
-    this.#lib.symbols.webinix_set_config(BigInt(5), true); // Enable async calls
-    this.#window = this.#lib.symbols.webinix_new_window();
+    Webinix.init(); // Init lib if not already initialized
+    this.#lib = _lib;
+    this.#window = _lib.symbols.webinix_new_window();
     windows.set(BigInt(this.#window), this);
-    // Global lib entry
-    if (typeof _lib === 'undefined') {
-      // The ref _lib is used by static members like `wait()`
-      _lib = this.#lib;
-    }
   }
 
   /**
@@ -600,6 +595,16 @@ export class Webinix {
   // --[ Static Methods ]------------------------
 
   /**
+   * Initialize Webinix library if it's not already initialized.
+   */
+  private static init() {
+    if (typeof _lib === 'undefined') {
+      _lib = loadLib();
+      _lib.symbols.webinix_set_config(BigInt(5), true); // Enable async calls
+    }
+  }
+
+  /**
    * Tries to close all opened windows and make Webinix.wait() break.
    * @example
    * ```ts
@@ -616,6 +621,7 @@ export class Webinix {
    * ```
    */
   static exit() {
+    Webinix.init();
     _lib.symbols.webinix_exit();
   }
 
@@ -643,6 +649,7 @@ export class Webinix {
    * ```
    */
   static setTLSCertificate(certificatePem: string, privateKeyPem: string) {
+    Webinix.init();
     const status = _lib.symbols.webinix_set_tls_certificate(
         toCString(certificatePem),
         toCString(privateKeyPem),
@@ -666,6 +673,7 @@ export class Webinix {
    * ```
    */
   static async wait() {
+    Webinix.init();
     // TODO:
     // The `await _lib.symbols.webinix_wait()` will block `callbackResource`
     // so all events (clicks) will be executed when `webinix_wait()` finish.
@@ -685,6 +693,7 @@ export class Webinix {
    * @param allow - True or False.
    */
   static setMultiClient(allow: boolean): void {
+    Webinix.init();
     _lib.symbols.webinix_set_config(BigInt(3), allow);
   }
 
@@ -692,6 +701,7 @@ export class Webinix {
    * Delete all local web-browser profiles folder.
    */
   static deleteAllProfiles(): void {
+    Webinix.init();
     _lib.symbols.webinix_delete_all_profiles();
   }
 
@@ -702,6 +712,7 @@ export class Webinix {
    * @return - The encoded string.
    */
   static encode(str: string): string {
+    Webinix.init();
     return (
       new Deno.UnsafePointerView(
         (_lib.symbols.webinix_encode(toCString(str)) as Deno.PointerObject<unknown>)
@@ -716,6 +727,7 @@ export class Webinix {
    * @return - The decoded string.
    */
   static decode(str: string): string {
+    Webinix.init();
     return (
       new Deno.UnsafePointerView(
         (_lib.symbols.webinix_decode(toCString(str)) as Deno.PointerObject<unknown>)
@@ -730,6 +742,7 @@ export class Webinix {
    * @return - A pointer to the allocated memory block.
    */
   static malloc(size: number): Deno.PointerValue {
+    Webinix.init();
     return _lib.symbols.webinix_malloc(BigInt(size));
   }
 
@@ -739,6 +752,7 @@ export class Webinix {
    * @param ptr - The pointer to the memory block.
    */
   static free(ptr: Deno.PointerValue): void {
+    Webinix.init();
     _lib.symbols.webinix_free(ptr);
   }
 
@@ -748,6 +762,7 @@ export class Webinix {
    * @param second - The timeout duration in seconds.
    */
   static setTimeout(second: number): void {
+    Webinix.init();
     _lib.symbols.webinix_set_timeout(BigInt(second));
   }
 
@@ -755,6 +770,7 @@ export class Webinix {
    * Clean all memory resources. Webinix is not usable after this call.
    */
   static clean() {
+    Webinix.init();
     _lib.symbols.webinix_clean();
   }
 
