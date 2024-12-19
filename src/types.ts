@@ -10,6 +10,7 @@ export type BindCallback<
 export interface WebinixEvent {
   window: Webinix;
   eventType: number;
+  eventNumber: number;
   element: string;
   arg: {
     number: (index: number) => number;

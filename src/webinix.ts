@@ -345,6 +345,7 @@ export class Webinix {
         const e: WebinixEvent = {
           window: windows.get(win)!,
           eventType: event_type,
+          eventNumber: event_number,
           element: element,
           arg: args
         };
