@@ -97,7 +97,8 @@ export async function fileExists(filePath: string) {
 
 export async function downloadCoreLibrary() {
   // Base URL
-  const baseUrl = `https://github.com/webinix-dev/webinix/releases/download/${WebinixCoreVersion}/`;
+  // const baseUrl = `https://github.com/webinix-dev/webinix/releases/download/${WebinixCoreVersion}/`;
+  const baseUrl = `https://github.com/webinix-dev/webinix/releases/download/nightly/`;
   // Detect OS
   let os, cc, ext, arch;
   switch (Deno.build.os) {
