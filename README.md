@@ -2,7 +2,7 @@
 
 ![Logo](https://raw.githubusercontent.com/webinix-dev/webinix-logo/main/webinix_deno.png)
 
-# Deno-Webinix v2.5.1 (Beta)
+# Deno-Webinix v2.5.2 (Beta)
 
 [last-commit]: https://img.shields.io/github/last-commit/webinix-dev/webinix?style=for-the-badge&logo=github&logoColor=C0CAF5&labelColor=414868
 [release-version]: https://img.shields.io/github/v/tag/webinix-dev/webinix?style=for-the-badge&logo=webtrees&logoColor=C0CAF5&labelColor=414868&color=7664C6
@@ -40,14 +40,14 @@ is written in Deno using Webinix as the GUI library.
 
 ## Installation
 
-Specific version: `import { Webinix } from "https://deno.land/x/webinix@2.5.1/mod.ts";`
+Specific version: `import { Webinix } from "https://deno.land/x/webinix@2.5.2/mod.ts";`
 
 Latest version: `import { Webinix } from "https://deno.land/x/webinix/mod.ts";`
 
 ## Minimal Example
 
 ```js
-import { Webinix } from "https://deno.land/x/webinix@2.5.1/mod.ts";
+import { Webinix } from "https://deno.land/x/webinix@2.5.2/mod.ts";
 
 const myWindow = new Webinix();
 myWindow.show('<html><script src="webinix.js"></script> Hello World! </html>');
