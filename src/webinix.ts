@@ -422,9 +422,9 @@ export class Webinix {
   }
 
   /**
-   * Sets a handlers to respond to file requests of the browser.
+   * Sets a custom handler to respond to file requests from the web browser.
    * 
-   * @param handler - Callback that takes an URL and return a string of a byte array.
+   * @param handler - Callback that takes an URL, and return a HTTP header + body `string` or `Uint8Array`.
    *
    * @example
    * const myWindow = new Webinix()
@@ -454,22 +454,47 @@ export class Webinix {
         pointerUrl: Deno.PointerValue,
         pointerLength: Deno.PointerValue,
       ) => {
-        const url = pointerUrl !== null
-          ? new Deno.UnsafePointerView(pointerUrl).getCString()
+        // Get URL as string
+        const url_str :string = pointerUrl !== null ? 
+          new Deno.UnsafePointerView(pointerUrl).getCString()
           : "";
 
-        // const winUrl: string = this.getUrl();
-        const response = handler(new URL(url, "http://localhost"));
-        const buffer = typeof response === "string"
-          ? toCString(response)
-          : response;
+        // Create URL Obj
+        const url_obj :URL = new URL(url_str, "http://localhost");
 
-        const lengthView = new Int32Array(
-          Deno.UnsafePointerView.getArrayBuffer((pointerLength as Deno.PointerObject<unknown>), 4),
+        // Call user callback
+        const user_response :string|Uint8Array = handler(url_obj);
+
+        // We can pass a local buffer to Webinix like this: 
+        // `return Deno.UnsafePointer.of(user_response);` However, 
+        // this may create a memory leak because Webinix cannot free 
+        // it, or cause memory corruption as Deno may free the buffer 
+        // before Webinix uses it. Therefore, the solution is to create 
+        // a safe Webinix buffer through Webinix. This Webinix buffer will 
+        // be automatically freed by Webinix later.
+        const webinix_buffer :Deno.PointerValue = _lib.symbols.webinix_malloc(BigInt(user_response.length));
+
+        // Copy data to C safe buffer
+        if (typeof user_response === "string") {
+          // copy `user_response` to `webinix_buffer` as String data
+          const cString = Deno.UnsafePointerView.toCString(user_response);
+          const webinix_buffer_ref = new Uint8Array(Deno.UnsafePointerView.getArrayBuffer(webinix_buffer, cString.byteLength));
+          webinix_buffer_ref.set(new Uint8Array(cString));
+        } else {
+          // copy `user_response` to `webinix_buffer` as Uint8Array data
+          const webinix_buffer_ref = new Uint8Array(Deno.UnsafePointerView.getArrayBuffer(webinix_buffer, user_response.byteLength));
+          webinix_buffer_ref.set(user_response);
+        }
+
+        // Send back the response
+        this.#lib.symbols.webinix_interface_set_response_file_handler(
+          BigInt(this.#window),
+          webinix_buffer,
+          BigInt(user_response.length),
         );
-        lengthView[0] = buffer.length;
 
-        return Deno.UnsafePointer.of(buffer);
+        // Return webinix-buffer to webinix
+        return 0;
       },
     );
 
