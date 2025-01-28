@@ -21,12 +21,12 @@ if [[ "$1" == "" ]]; then
     # WINDOWS_MSVC_X64="https://github.com/webinix-dev/webinix/releases/download/nightly/webinix-windows-msvc-x64.zip"
 
     # Release
-    LINUX_ARM="https://github.com/webinix-dev/webinix/releases/download/2.5.0-beta.2/webinix-linux-gcc-arm.zip"
-    LINUX_ARM64="https://github.com/webinix-dev/webinix/releases/download/2.5.0-beta.2/webinix-linux-gcc-arm64.zip"
-    LINUX_X64="https://github.com/webinix-dev/webinix/releases/download/2.5.0-beta.2/webinix-linux-gcc-x64.zip"
-    MACOS_ARM64="https://github.com/webinix-dev/webinix/releases/download/2.5.0-beta.2/webinix-macos-clang-arm64.zip"
-    MACOS_X64="https://github.com/webinix-dev/webinix/releases/download/2.5.0-beta.2/webinix-macos-clang-x64.zip"
-    WINDOWS_MSVC_X64="https://github.com/webinix-dev/webinix/releases/download/2.5.0-beta.2/webinix-windows-msvc-x64.zip"
+    LINUX_ARM="https://github.com/webinix-dev/webinix/releases/download/2.5.0-beta.3/webinix-linux-gcc-arm.zip"
+    LINUX_ARM64="https://github.com/webinix-dev/webinix/releases/download/2.5.0-beta.3/webinix-linux-gcc-arm64.zip"
+    LINUX_X64="https://github.com/webinix-dev/webinix/releases/download/2.5.0-beta.3/webinix-linux-gcc-x64.zip"
+    MACOS_ARM64="https://github.com/webinix-dev/webinix/releases/download/2.5.0-beta.3/webinix-macos-clang-arm64.zip"
+    MACOS_X64="https://github.com/webinix-dev/webinix/releases/download/2.5.0-beta.3/webinix-macos-clang-x64.zip"
+    WINDOWS_MSVC_X64="https://github.com/webinix-dev/webinix/releases/download/2.5.0-beta.3/webinix-windows-msvc-x64.zip"
 
     # Download and extract archives
     download_and_extract() {
@@ -69,7 +69,7 @@ if [[ "$1" == "minimal" ]]; then
     # BASE_URL="https://github.com/webinix-dev/webinix/releases/download/nightly/"
 
     # Release
-    BASE_URL="https://github.com/webinix-dev/webinix/releases/download/2.5.0-beta.2/"
+    BASE_URL="https://github.com/webinix-dev/webinix/releases/download/2.5.0-beta.3/"
 
     # Detect OS (macOS / Linux)
     OS="linux"
