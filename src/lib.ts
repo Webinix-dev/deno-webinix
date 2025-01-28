@@ -265,7 +265,7 @@ export function loadLib() {
       },
       webinix_interface_set_response_file_handler: {
         // void webinix_interface_set_response_file_handler(size_t window, const void* response, int length)
-        parameters: ["usize", "buffer", "usize"],
+        parameters: ["usize", "pointer", "usize"],
         result: "void",
       }
     } as const,
