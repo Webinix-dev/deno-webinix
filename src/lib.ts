@@ -263,11 +263,76 @@ export function loadLib() {
         parameters: ["usize", "usize", "buffer", "usize", "buffer", "usize"],
         result: "bool",
       },
+      webinix_send_raw_client: {
+        // void webinix_send_raw_client(webinix_event_t* e, const char* function, const void* raw, size_t size)
+        parameters: ["pointer", "buffer", "buffer", "usize"],
+        result: "void",
+      },
       webinix_interface_set_response_file_handler: {
         // void webinix_interface_set_response_file_handler(size_t window, const void* response, int length)
         parameters: ["usize", "pointer", "usize"],
         result: "void",
-      }
+      },
+      webinix_get_best_browser: {
+        // size_t webinix_get_best_browser(size_t window)
+        parameters: ["usize"],
+        result: "usize",
+      },
+      webinix_start_server: {
+        // const char* webinix_start_server(size_t window, const char* content)
+        parameters: ["usize", "buffer"],
+        result: "buffer",
+      },
+      webinix_show_wv: {
+        // bool webinix_show_wv(size_t window, const char* content)
+        parameters: ["usize", "buffer"],
+        result: "bool",
+      },
+      webinix_set_custom_parameters: {
+        // void webinix_set_custom_parameters(size_t window, char *params)
+        parameters: ["usize", "buffer"],
+        result: "void",
+      },
+      webinix_set_high_contrast: {
+        // void webinix_set_high_contrast(size_t window, bool status)
+        parameters: ["usize", "bool"],
+        result: "void",
+      },
+      webinix_is_high_contrast: {
+        // bool webinix_is_high_contrast(void)
+        parameters: [],
+        result: "bool",
+      },
+      webinix_browser_exist: {
+        // bool webinix_browser_exist(size_t browser)
+        parameters: ["usize"],
+        result: "bool",
+      },
+      webinix_set_default_root_folder: {
+        // bool webinix_set_default_root_folder(const char* path)
+        parameters: ["buffer"],
+        result: "bool",
+      },
+      webinix_set_minimum_size: {
+        // void webinix_set_minimum_size(size_t window, unsigned int width, unsigned int height)
+        parameters: ["usize", "u32", "u32"],
+        result: "void",
+      },
+      webinix_set_proxy: {
+        // void webinix_set_proxy(size_t window, const char* proxy_server)
+        parameters: ["usize", "buffer"],
+        result: "void",
+      },
+      webinix_open_url: {
+        // void webinix_open_url(const char* url)
+        parameters: ["buffer"],
+        result: "void",
+      },
+      webinix_get_free_port: {
+        // size_t webinix_get_free_port(void)
+        parameters: [],
+        result: "usize",
+      },
     } as const,
   );
 }
