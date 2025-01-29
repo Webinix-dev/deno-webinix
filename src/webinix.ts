@@ -629,7 +629,11 @@ export class Webinix {
   /**
    * Navigate to a specific URL.
    * 
-   * @param url - The URL to navigate to.
+   * @param {string} url - The URL to navigate to.
+   * @example
+   * ```ts
+   * myWindow.navigate("https://webinix.me");
+   * ```
    */
   navigate(url: string): void {
     this.#lib.symbols.webinix_navigate(BigInt(this.#window), toCString(url));
