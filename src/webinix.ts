@@ -1,5 +1,5 @@
 /*
-  Webinix Deno 2.5.2
+  Webinix Deno 2.5.3
   http://webinix.me
   https://github.com/webinix-dev/deno-webinix
   Copyright (c) 2020-2025 Hassan Draga.
@@ -1067,7 +1067,7 @@ export class Webinix {
   }
 
   static get version() {
-    return "2.5.2";
+    return "2.5.3";
   }
 }
 
