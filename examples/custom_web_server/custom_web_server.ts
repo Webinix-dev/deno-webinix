@@ -1,0 +1,85 @@
+// To run this script:
+// deno run --allow-read --allow-write --allow-run --allow-net --allow-ffi custom_web_server.ts
+
+// To import from local (Debugging and Development)
+import { Webinix } from "../../mod.ts";
+
+// To import from online `https://deno.land` (Production)
+// import { Webinix } from "https://deno.land/x/webinix@2.5.3/mod.ts";
+
+async function allEvents(e: Webinix.Event) {
+  /*
+    e.window: Webinix;
+    e.eventType: Webinix.EventType;
+    e.element: string;
+  */
+  console.log(`\nallEvents: window = '${e.window}'`);
+  console.log(`allEvents: eventType = '${e.eventType}'`);
+  console.log(`allEvents: element = '${e.element}'`);
+  switch (e.eventType) {
+    case Webinix.EventType.Disconnected:
+      // Window disconnection event
+      console.log(`Window closed.`);
+      break;
+    case Webinix.EventType.Connected:
+      // Window connection event
+      console.log(`Window connected.`);
+      break;
+    case Webinix.EventType.MouseClick:
+      // Mouse click event
+      console.log(`Mouse click.`);
+      break;
+    case Webinix.EventType.Navigation:
+      // Window navigation event
+      const url = e.arg.string(0);
+      console.log(`Navigation to '${url}'`);
+      // Because we used `webinix_bind(MyWindow, "", events);`
+      // Webinix will block all `href` link clicks and sent here instead.
+      // We can then control the behaviour of links as needed.
+      e.window.navigate(url);
+      break;
+    case Webinix.EventType.Callback:
+      // Function call event
+      console.log(`Function call.`);
+      break;
+  }
+}
+
+async function myBackendFunc(e: Webinix.Event) {
+  const a = e.arg.number(0); // First argument
+  const b = e.arg.number(1); // Second argument
+  const c = e.arg.number(2); // Third argument
+  console.log(`\nFirst argument: ${a}`);
+  console.log(`Second argument: ${b}`);
+  console.log(`Third argument: ${c}`);
+}
+
+// Create new window
+const myWindow = new Webinix();
+
+// Bind All Events
+myWindow.bind("", allEvents);
+
+// Bind Backend Function
+myWindow.bind("myBackendFunc", myBackendFunc);
+
+// Bind Exit Function
+myWindow.bind("exit", () => {
+  // Close all windows and exit
+  Webinix.exit();
+});
+
+// Set the web-server/WebSocket port that Webinix should
+// use. This means `webinix.js` will be available at:
+// http://localhost:MY_PORT_NUMBER/webinix.js
+myWindow.setPort(8081);
+
+// Show a new window and point to our custom web server
+// Assuming the custom web server is running on port
+// 8080...
+myWindow.show("http://localhost:8080/");
+
+// Wait until all windows get closed
+await Webinix.wait();
+
+console.log("Thank you.");
