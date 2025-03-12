@@ -47,11 +47,11 @@ if [[ "$1" == "" ]]; then
         fi
     }
 
-    download_and_extract $LINUX_ARM "webinix-linux-gcc-arm" "webinix-2.so"
-    download_and_extract $LINUX_ARM64 "webinix-linux-gcc-arm64" "webinix-2.so"
-    download_and_extract $LINUX_X64 "webinix-linux-gcc-x64" "webinix-2.so"
-    download_and_extract $MACOS_ARM64 "webinix-macos-clang-arm64" "webinix-2.dylib"
-    download_and_extract $MACOS_X64 "webinix-macos-clang-x64" "webinix-2.dylib"
+    download_and_extract $LINUX_ARM "webinix-linux-gcc-arm" "libwebinix-2.so"
+    download_and_extract $LINUX_ARM64 "webinix-linux-gcc-arm64" "libwebinix-2.so"
+    download_and_extract $LINUX_X64 "webinix-linux-gcc-x64" "libwebinix-2.so"
+    download_and_extract $MACOS_ARM64 "webinix-macos-clang-arm64" "libwebinix-2.dylib"
+    download_and_extract $MACOS_X64 "webinix-macos-clang-x64" "libwebinix-2.dylib"
     download_and_extract $WINDOWS_MSVC_X64 "webinix-windows-msvc-x64" "webinix-2.dll"
 
     # Remove cache folder

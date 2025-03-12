@@ -37,17 +37,17 @@ async function getLibName() {
     case "darwin":
       switch (Deno.build.arch) {
         case "x86_64":
-          fileName = "webinix-macos-clang-x64/webinix-2.dylib";
-          localFileName = "./webinix-2.dylib";
+          fileName = "webinix-macos-clang-x64/libwebinix-2.dylib";
+          localFileName = "./libwebinix-2.dylib";
           break;
         // case "arm":
-        //   fileName = "webinix-macos-clang-arm/webinix-2.dylib";
-        //   localFileName = "./webinix-2.dylib";
+        //   fileName = "webinix-macos-clang-arm/libwebinix-2.dylib";
+        //   localFileName = "./libwebinix-2.dylib";
         //   break;
         // case "arm64":
         case "aarch64":
-          fileName = "webinix-macos-clang-arm64/webinix-2.dylib";
-          localFileName = "./webinix-2.dylib";
+          fileName = "webinix-macos-clang-arm64/libwebinix-2.dylib";
+          localFileName = "./libwebinix-2.dylib";
           break;
         default:
           throw new Error(
@@ -64,17 +64,17 @@ async function getLibName() {
       // illumos
       switch (Deno.build.arch) {
         case "x86_64":
-          fileName = "webinix-linux-gcc-x64/webinix-2.so";
-          localFileName = "./webinix-2.so";
+          fileName = "webinix-linux-gcc-x64/libwebinix-2.so";
+          localFileName = "./libwebinix-2.so";
           break;
         // case "arm":
-        //   fileName = "webinix-linux-gcc-arm/webinix-2.so";
-        //   localFileName = "./webinix-2.so";
+        //   fileName = "webinix-linux-gcc-arm/libwebinix-2.so";
+        //   localFileName = "./libwebinix-2.so";
         //   break;
         // case "arm64":
         case "aarch64":
-          fileName = "webinix-linux-gcc-arm64/webinix-2.so";
-          localFileName = "./webinix-2.so";
+          fileName = "webinix-linux-gcc-arm64/libwebinix-2.so";
+          localFileName = "./libwebinix-2.so";
           break;
         default:
           throw new Error(

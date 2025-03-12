@@ -32,11 +32,11 @@ SET "MACOS_X64=https://github.com/webinix-dev/webinix/releases/download/2.5.0-be
 SET "WINDOWS_MSVC_X64=https://github.com/webinix-dev/webinix/releases/download/2.5.0-beta.3/webinix-windows-msvc-x64.zip"
 
 :: Download and extract archives
-CALL :DOWNLOAD_AND_EXTRACT %LINUX_ARM% webinix-linux-gcc-arm webinix-2.so
-CALL :DOWNLOAD_AND_EXTRACT %LINUX_ARM64% webinix-linux-gcc-arm64 webinix-2.so
-CALL :DOWNLOAD_AND_EXTRACT %LINUX_X64% webinix-linux-gcc-x64 webinix-2.so
-CALL :DOWNLOAD_AND_EXTRACT %MACOS_ARM64% webinix-macos-clang-arm64 webinix-2.dylib
-CALL :DOWNLOAD_AND_EXTRACT %MACOS_X64% webinix-macos-clang-x64 webinix-2.dylib
+CALL :DOWNLOAD_AND_EXTRACT %LINUX_ARM% webinix-linux-gcc-arm libwebinix-2.so
+CALL :DOWNLOAD_AND_EXTRACT %LINUX_ARM64% webinix-linux-gcc-arm64 libwebinix-2.so
+CALL :DOWNLOAD_AND_EXTRACT %LINUX_X64% webinix-linux-gcc-x64 libwebinix-2.so
+CALL :DOWNLOAD_AND_EXTRACT %MACOS_ARM64% webinix-macos-clang-arm64 libwebinix-2.dylib
+CALL :DOWNLOAD_AND_EXTRACT %MACOS_X64% webinix-macos-clang-x64 libwebinix-2.dylib
 CALL :DOWNLOAD_AND_EXTRACT %WINDOWS_MSVC_X64% webinix-windows-msvc-x64 webinix-2.dll
 
 :: Remove cache folder
