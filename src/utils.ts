@@ -100,22 +100,25 @@ export async function downloadCoreLibrary() {
   // const baseUrl = `https://github.com/webinix-dev/webinix/releases/download/${WebinixCoreVersion}/`;
   const baseUrl = `https://github.com/webinix-dev/webinix/releases/download/nightly/`;
   // Detect OS
-  let os, cc, ext, arch;
+  let os, cc, ext, arch, libFile;
   switch (Deno.build.os) {
       case "darwin":
           os = "macos";
           cc = "clang";
           ext = "dylib";
+          libFile = `libwebinix-2.${ext}`;
           break;
       case "windows":
           os = "windows";
           cc = "msvc";
           ext = "dll";
+          libFile = `webinix-2.${ext}`;
           break;
       default:
           os = "linux";
           cc = "gcc";
           ext = "so";
+          libFile = `libwebinix-2.${ext}`;
           break;
   }
   // Detect Architecture
@@ -156,7 +159,6 @@ export async function downloadCoreLibrary() {
   }
 
   // Copy library
-  const libFile = `webinix-2.${ext}`;
   await createDirectory(outputDir);
   await copyFileOverwrite(joinPath(cacheDir, fileName, libFile), joinPath(outputDir, libFile));
 
