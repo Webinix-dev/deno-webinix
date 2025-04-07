@@ -19,7 +19,7 @@ function getBaseLibName(): string {
       }
       break;
     case "darwin": // macOS
-      baseName = useNightly ? "libwebinix-2.dylib" : "webinix-2.dylib";
+      baseName = "libwebinix-2.dylib";
       // Validate architecture for macOS
       if (Deno.build.arch !== "x86_64" && Deno.build.arch !== "aarch64") {
         throw new Error(
@@ -28,7 +28,7 @@ function getBaseLibName(): string {
       }
       break;
     default: // Linux and other Unix-like OSes
-      baseName = useNightly ? "libwebinix-2.so" : "webinix-2.so";
+      baseName = "libwebinix-2.so";
       // Validate architecture for Linux/others
       if (Deno.build.arch !== "x86_64" && Deno.build.arch !== "aarch64") {
         throw new Error(
