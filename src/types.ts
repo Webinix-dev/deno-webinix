@@ -24,4 +24,4 @@ export type WebinixLib = Awaited<ReturnType<typeof loadLib>>;
 export type Datatypes =
   | string
   | number
-  | boolean
+  | boolean;
