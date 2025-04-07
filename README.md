@@ -51,7 +51,7 @@ Latest version: `import { Webinix } from "https://deno.land/x/webinix/mod.ts";`
 ## Minimal Example
 
 ```js
-import { Webinix } from "https://deno.land/x/webinix@2.5.3/mod.ts";
+import { Webinix } from "jsr:@sigmasd/webinix-deno-fork";
 
 const myWindow = new Webinix();
 myWindow.show('<html><script src="webinix.js"></script> Hello World! </html>');
