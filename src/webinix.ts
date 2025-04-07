@@ -9,7 +9,7 @@
 */
 
 import { loadLib } from "./lib.ts";
-import {
+import type {
   BindCallback,
   Datatypes,
   Usize,
@@ -65,8 +65,8 @@ export class Webinix {
    */
   setRootFolder(rootFolder: string) {
     const status = this.#lib.symbols.webinix_set_root_folder(
-        BigInt(this.#window),
-        toCString(rootFolder),
+      BigInt(this.#window),
+      toCString(rootFolder),
     );
     if (!status) {
       throw new WebinixError(`unable to set root folder`);
@@ -177,7 +177,7 @@ export class Webinix {
    * myWindow2.isShown // false
    * ```
    */
-  get isShown() {
+  get isShown(): boolean {
     return this.#lib.symbols.webinix_is_shown(BigInt(this.#window));
   }
 
@@ -198,7 +198,7 @@ export class Webinix {
    * myWindow2.isShown // false
    * ```
    */
-  close() {
+  close(): void {
     return this.#lib.symbols.webinix_close(BigInt(this.#window));
   }
 
@@ -221,7 +221,7 @@ export class Webinix {
       timeout?: number;
       bufferSize?: number;
     },
-  ) {
+  ): Promise<string> {
     // Response Buffer
     const bufferSize =
       (options?.bufferSize !== undefined && options.bufferSize > 0)
@@ -272,7 +272,7 @@ export class Webinix {
       timeout?: number;
       bufferSize?: number;
     },
-  ) {
+  ): Promise<string> {
     // Response Buffer
     const bufferSize =
       (options?.bufferSize !== undefined && options.bufferSize > 0)
@@ -367,35 +367,49 @@ export class Webinix {
       ) => {
         // Create elements
         const win = param_window;
-        const event_type = typeof param_event_type === 'bigint'
+        const event_type = typeof param_event_type === "bigint"
           ? Number(param_event_type)
           : Math.trunc(param_event_type);
         const element = param_element !== null
           ? new Deno.UnsafePointerView(param_element).getCString()
           : "";
-        const event_number = typeof param_event_number === 'bigint'
+        const event_number = typeof param_event_number === "bigint"
           ? Number(param_event_number)
           : Math.trunc(param_event_number);
-        const _bind_id = typeof param_bind_id === 'bigint'
+        const _bind_id = typeof param_bind_id === "bigint"
           ? Number(param_bind_id)
           : Math.trunc(param_bind_id);
 
         // Set get argument methods
         const args = {
           number: (index: number): number => {
-            return Number(this.#lib.symbols.webinix_interface_get_int_at(BigInt(win), BigInt(event_number), BigInt(index)))
+            return Number(
+              this.#lib.symbols.webinix_interface_get_int_at(
+                BigInt(win),
+                BigInt(event_number),
+                BigInt(index),
+              ),
+            );
           },
           string: (index: number): string => {
             return (
               new Deno.UnsafePointerView(
-                (this.#lib.symbols.webinix_interface_get_string_at(BigInt(win), BigInt(event_number), BigInt(index)) as Deno.PointerObject<unknown>)
+                this.#lib.symbols.webinix_interface_get_string_at(
+                  BigInt(win),
+                  BigInt(event_number),
+                  BigInt(index),
+                ) as Deno.PointerObject<unknown>,
               ).getCString()
-            ) as string
+            ) as string;
           },
           boolean: (index: number): boolean => {
-            return this.#lib.symbols.webinix_interface_get_bool_at(BigInt(win), BigInt(event_number), BigInt(index)) as boolean
-          }
-        }
+            return this.#lib.symbols.webinix_interface_get_bool_at(
+              BigInt(win),
+              BigInt(event_number),
+              BigInt(index),
+            ) as boolean;
+          },
+        };
 
         // Create struct
         const e: WebinixEvent = {
@@ -403,11 +417,11 @@ export class Webinix {
           eventType: event_type,
           eventNumber: event_number,
           element: element,
-          arg: args
+          arg: args,
         };
 
         // Call the user callback
-        const result: string = (await callback(e) as string) ?? '';
+        const result: string = (await callback(e) as string) ?? "";
 
         // Send back the response
         this.#lib.symbols.webinix_interface_set_response(
@@ -442,7 +456,6 @@ export class Webinix {
    * myWindow.setFileHandler(myFileHandler);
    */
   setFileHandler(callback: (url: URL) => Promise<string | Uint8Array>) {
-
     // C: .show_wait_connection = false; // 0
     // Disable `.show()` auto waiting for window connection,
     // otherwise `.setFileHandler()` will be blocked.
@@ -470,15 +483,15 @@ export class Webinix {
         _param_length: Deno.PointerValue,
       ) => {
         // Get URL as string
-        const url_str :string = param_url !== null ?
-          new Deno.UnsafePointerView(param_url).getCString()
+        const url_str: string = param_url !== null
+          ? new Deno.UnsafePointerView(param_url).getCString()
           : "";
 
         // Create URL Obj
-        const url_obj :URL = new URL(url_str, "http://localhost");
+        const url_obj: URL = new URL(url_str, "http://localhost");
 
         // Call the user callback
-        const user_response: string|Uint8Array = await callback(url_obj);
+        const user_response: string | Uint8Array = await callback(url_obj);
 
         // We can pass a local buffer to Webinix like this:
         // `return Deno.UnsafePointer.of(user_response);` However,
@@ -487,7 +500,9 @@ export class Webinix {
         // before Webinix uses it. Therefore, the solution is to create
         // a safe Webinix buffer through Webinix API. This Webinix buffer will
         // be automatically freed by Webinix later.
-        const webinix_buffer :Deno.PointerValue = _lib.symbols.webinix_malloc(BigInt(user_response.length));
+        const webinix_buffer: Deno.PointerValue = _lib.symbols.webinix_malloc(
+          BigInt(user_response.length),
+        );
         if (!webinix_buffer) {
           throw new Error("Failed to allocate memory for Webinix buffer");
         }
@@ -496,11 +511,21 @@ export class Webinix {
         if (typeof user_response === "string") {
           // copy `user_response` to `webinix_buffer` as String data
           const cString = toCString(user_response);
-          const webinix_buffer_ref = new Uint8Array(Deno.UnsafePointerView.getArrayBuffer(webinix_buffer, cString.byteLength));
+          const webinix_buffer_ref = new Uint8Array(
+            Deno.UnsafePointerView.getArrayBuffer(
+              webinix_buffer,
+              cString.byteLength,
+            ),
+          );
           webinix_buffer_ref.set(new Uint8Array(cString));
         } else {
           // copy `user_response` to `webinix_buffer` as Uint8Array data
-          const webinix_buffer_ref = new Uint8Array(Deno.UnsafePointerView.getArrayBuffer(webinix_buffer, user_response.byteLength));
+          const webinix_buffer_ref = new Uint8Array(
+            Deno.UnsafePointerView.getArrayBuffer(
+              webinix_buffer,
+              user_response.byteLength,
+            ),
+          );
           webinix_buffer_ref.set(user_response);
         }
 
@@ -529,7 +554,7 @@ export class Webinix {
    * myWindow.setProfile("myProfile", "/path/to/profile");
    * ```
    */
-  setProfile(name: string, path: string) {
+  setProfile(name: string, path: string): void {
     return this.#lib.symbols.webinix_set_profile(
       BigInt(this.#window),
       toCString(name),
@@ -565,7 +590,11 @@ export class Webinix {
    * @param iconType - The icon type: `image/svg+xml`
    */
   setIcon(icon: string, iconType: string): void {
-    this.#lib.symbols.webinix_set_icon(BigInt(this.#window), toCString(icon), toCString(iconType));
+    this.#lib.symbols.webinix_set_icon(
+      BigInt(this.#window),
+      toCString(icon),
+      toCString(iconType),
+    );
   }
 
   /**
@@ -575,7 +604,12 @@ export class Webinix {
    * @param raw - The raw data to send.
    */
   sendRaw(functionName: string, raw: Uint8Array): void {
-    this.#lib.symbols.webinix_send_raw(BigInt(this.#window), toCString(functionName), raw, BigInt(raw.length));
+    this.#lib.symbols.webinix_send_raw(
+      BigInt(this.#window),
+      toCString(functionName),
+      raw,
+      BigInt(raw.length),
+    );
   }
 
   /**
@@ -615,9 +649,11 @@ export class Webinix {
   getUrl(): string {
     return (
       new Deno.UnsafePointerView(
-        (this.#lib.symbols.webinix_get_url(BigInt(this.#window)) as Deno.PointerObject<unknown>)
+        this.#lib.symbols.webinix_get_url(
+          BigInt(this.#window),
+        ) as Deno.PointerObject<unknown>,
       ).getCString()
-    ) as string
+    ) as string;
   }
 
   /**
@@ -665,7 +701,9 @@ export class Webinix {
    * @return - The last child process ID.
    */
   getChildProcessId(): number {
-    return Number(this.#lib.symbols.webinix_get_child_process_id(BigInt(this.#window)));
+    return Number(
+      this.#lib.symbols.webinix_get_child_process_id(BigInt(this.#window)),
+    );
   }
 
   /**
@@ -700,7 +738,9 @@ export class Webinix {
    * ```
    */
   getBestBrowser(): number {
-    return Number(this.#lib.symbols.webinix_get_best_browser(BigInt(this.#window)));
+    return Number(
+      this.#lib.symbols.webinix_get_best_browser(BigInt(this.#window)),
+    );
   }
 
   /**
@@ -715,10 +755,10 @@ export class Webinix {
    */
   startServer(content: string): string {
     const url = this.#lib.symbols.webinix_start_server(
-          BigInt(this.#window),
-          toCString(content),
-      )
-    return  Deno.UnsafePointerView.getCString(url!);
+      BigInt(this.#window),
+      toCString(content),
+    );
+    return Deno.UnsafePointerView.getCString(url!);
   }
 
   /**
@@ -782,7 +822,11 @@ export class Webinix {
    * ```
    */
   setMinimumSize(width: number, height: number): void {
-    this.#lib.symbols.webinix_set_minimum_size(BigInt(this.#window), width, height);
+    this.#lib.symbols.webinix_set_minimum_size(
+      BigInt(this.#window),
+      width,
+      height,
+    );
   }
 
   /**
@@ -896,7 +940,7 @@ export class Webinix {
    * Initialize Webinix library if it's not already initialized.
    */
   private static init() {
-    if (typeof _lib === 'undefined') {
+    if (typeof _lib === "undefined") {
       _lib = loadLib();
       // C: .asynchronous_response = true; // 5
       // Enable async calls, this is needed for `.bind()`
@@ -951,8 +995,8 @@ export class Webinix {
   static setTLSCertificate(certificatePem: string, privateKeyPem: string) {
     Webinix.init();
     const status = _lib.symbols.webinix_set_tls_certificate(
-        toCString(certificatePem),
-        toCString(privateKeyPem),
+      toCString(certificatePem),
+      toCString(privateKeyPem),
     );
     if (!status) {
       throw new WebinixError(`unable to set certificate`);
@@ -1015,9 +1059,11 @@ export class Webinix {
     Webinix.init();
     return (
       new Deno.UnsafePointerView(
-        (_lib.symbols.webinix_encode(toCString(str)) as Deno.PointerObject<unknown>)
+        _lib.symbols.webinix_encode(toCString(str)) as Deno.PointerObject<
+          unknown
+        >,
       ).getCString()
-    ) as string
+    ) as string;
   }
 
   /**
@@ -1030,9 +1076,11 @@ export class Webinix {
     Webinix.init();
     return (
       new Deno.UnsafePointerView(
-        (_lib.symbols.webinix_decode(toCString(str)) as Deno.PointerObject<unknown>)
+        _lib.symbols.webinix_decode(toCString(str)) as Deno.PointerObject<
+          unknown
+        >,
       ).getCString()
-    ) as string
+    ) as string;
   }
 
   /**
@@ -1074,7 +1122,7 @@ export class Webinix {
     _lib.symbols.webinix_clean();
   }
 
-  static get version() {
+  static get version(): string {
     return "2.5.3";
   }
 }
@@ -1096,7 +1144,7 @@ export namespace Webinix {
     Epic, // 10. The Epic Browser
     Yandex, // 11. The Yandex Browser
     ChromiumBased, // 12. Any Chromium based browser
-  };
+  }
   export enum EventType {
     Disconnected = 0, // 0. Window disconnection event
     Connected, // 1. Window connection event
