@@ -1,0 +1,5 @@
+{
+  "name": "@sigmasd/webinix-deno-fork",
+  "version": "3.1.3",
+  "exports": "./mod.ts"
+}

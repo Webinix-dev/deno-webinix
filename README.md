@@ -12,7 +12,9 @@
 [![][release-version]](https://github.com/webinix-dev/deno-webinix/releases/latest)
 [![][license]](https://github.com/webinix-dev/deno-webinix/blob/main/LICENSE)
 
-> Use any web browser or WebView as GUI, with your preferred language in the backend and modern web technologies in the frontend, all in a lightweight portable library.
+> Use any web browser or WebView as GUI, with your preferred language in the
+> backend and modern web technologies in the frontend, all in a lightweight
+> portable library.
 
 ![Screenshot](https://raw.githubusercontent.com/webinix-dev/webinix-logo/main/screenshot.png)
 
@@ -24,8 +26,8 @@
 
 ## Features
 
-- Portable (*Needs only a web browser or a WebView at runtime*)
-- Lightweight (*Few Kb library*) & Small memory footprint
+- Portable (_Needs only a web browser or a WebView at runtime_)
+- Lightweight (_Few Kb library_) & Small memory footprint
 - Fast binary communication protocol
 - Multi-platform & Multi-Browser
 - Using private profile for safety
@@ -33,14 +35,16 @@
 
 ## Screenshot
 
-This [hello world example](https://github.com/webinix-dev/deno-webinix/tree/main/examples/hello_world)
+This
+[hello world example](https://github.com/webinix-dev/deno-webinix/tree/main/examples/hello_world)
 is written in Deno using Webinix as the GUI library.
 
 ![ScreenShot](img/webinix_deno_example.png)
 
 ## Installation
 
-Specific version: `import { Webinix } from "https://deno.land/x/webinix@2.5.3/mod.ts";`
+Specific version:
+`import { Webinix } from "https://deno.land/x/webinix@2.5.3/mod.ts";`
 
 Latest version: `import { Webinix } from "https://deno.land/x/webinix/mod.ts";`
 
@@ -132,35 +136,35 @@ browser**.
 
 ## Supported Languages
 
-| Language        | v2.4.0 API | v2.5.0 API | Link                                                    |
-| --------------- | --- | -------------- | ---------------------------------------------------------  |
-| Python          | ✔️ | _not complete_ | [Python-Webinix](https://github.com/webinix-dev/python-webinix)  |
-| Go              | ✔️ | _not complete_ | [Go-Webinix](https://github.com/webinix-dev/go-webinix)          |
-| Zig             | ✔️ |  _not complete_ | [Zig-Webinix](https://github.com/webinix-dev/zig-webinix)        |
-| Nim             | ✔️ |  _not complete_ | [Nim-Webinix](https://github.com/webinix-dev/nim-webinix)        |
-| V               | ✔️ |  _not complete_ | [V-Webinix](https://github.com/webinix-dev/v-webinix)            |
-| Rust            | _not complete_ |  _not complete_ | [Rust-Webinix](https://github.com/webinix-dev/rust-webinix)      |
-| TS / JS (Deno)  | ✔️ |  _not complete_ | [Deno-Webinix](https://github.com/webinix-dev/deno-webinix)      |
-| TS / JS (Bun)   | _not complete_ |  _not complete_ | [Bun-Webinix](https://github.com/webinix-dev/bun-webinix)        |
-| Swift           | _not complete_ |  _not complete_ | [Swift-Webinix](https://github.com/webinix-dev/swift-webinix)    |
-| Odin            | _not complete_ |  _not complete_ | [Odin-Webinix](https://github.com/webinix-dev/odin-webinix)      |
-| Pascal          | _not complete_ |  _not complete_ | [Pascal-Webinix](https://github.com/webinix-dev/pascal-webinix)  |
-| Purebasic       | _not complete_ |  _not complete_ | [Purebasic-Webinix](https://github.com/webinix-dev/purebasic-webinix)|
-| - |  |  |
-| Common Lisp     | _not complete_ |  _not complete_ | [cl-webinix](https://github.com/garlic0x1/cl-webinix)          |
-| Delphi          | _not complete_ |  _not complete_ | [Webinix4Delphi](https://github.com/salvadordf/Webinix4Delphi) |
-| C#              | _not complete_ |  _not complete_ | [Webinix4CSharp](https://github.com/salvadordf/Webinix4CSharp) |
-| Webinix.NET       | _not complete_ |  _not complete_ | [Webinix.NET](https://github.com/Juff-Ma/Webinix.NET)          |
-| QuickJS         | _not complete_ |  _not complete_ | [QuickUI](https://github.com/xland/QuickUI)                |
-| PHP             | _not complete_ |  _not complete_ | [PHPWebUiComposer](https://github.com/KingBes/php-webinix-composer) |
+| Language       | v2.4.0 API     | v2.5.0 API     | Link                                                              |
+| -------------- | -------------- | -------------- | ----------------------------------------------------------------- |
+| Python         | ✔️             | _not complete_ | [Python-Webinix](https://github.com/webinix-dev/python-webinix)         |
+| Go             | ✔️             | _not complete_ | [Go-Webinix](https://github.com/webinix-dev/go-webinix)                 |
+| Zig            | ✔️             | _not complete_ | [Zig-Webinix](https://github.com/webinix-dev/zig-webinix)               |
+| Nim            | ✔️             | _not complete_ | [Nim-Webinix](https://github.com/webinix-dev/nim-webinix)               |
+| V              | ✔️             | _not complete_ | [V-Webinix](https://github.com/webinix-dev/v-webinix)                   |
+| Rust           | _not complete_ | _not complete_ | [Rust-Webinix](https://github.com/webinix-dev/rust-webinix)             |
+| TS / JS (Deno) | ✔️             | _not complete_ | [Deno-Webinix](https://github.com/webinix-dev/deno-webinix)             |
+| TS / JS (Bun)  | _not complete_ | _not complete_ | [Bun-Webinix](https://github.com/webinix-dev/bun-webinix)               |
+| Swift          | _not complete_ | _not complete_ | [Swift-Webinix](https://github.com/webinix-dev/swift-webinix)           |
+| Odin           | _not complete_ | _not complete_ | [Odin-Webinix](https://github.com/webinix-dev/odin-webinix)             |
+| Pascal         | _not complete_ | _not complete_ | [Pascal-Webinix](https://github.com/webinix-dev/pascal-webinix)         |
+| Purebasic      | _not complete_ | _not complete_ | [Purebasic-Webinix](https://github.com/webinix-dev/purebasic-webinix)   |
+| -              |                |                |                                                                   |
+| Common Lisp    | _not complete_ | _not complete_ | [cl-webinix](https://github.com/garlic0x1/cl-webinix)                 |
+| Delphi         | _not complete_ | _not complete_ | [Webinix4Delphi](https://github.com/salvadordf/Webinix4Delphi)        |
+| C#             | _not complete_ | _not complete_ | [Webinix4CSharp](https://github.com/salvadordf/Webinix4CSharp)        |
+| Webinix.NET      | _not complete_ | _not complete_ | [Webinix.NET](https://github.com/Juff-Ma/Webinix.NET)                 |
+| QuickJS        | _not complete_ | _not complete_ | [QuickUI](https://github.com/xland/QuickUI)                       |
+| PHP            | _not complete_ | _not complete_ | [PHPWebUiComposer](https://github.com/KingBes/php-webinix-composer) |
 
 ## Supported WebView
 
-| WebView         | Status         |
-| --------------- | --------------- |
-| Windows WebView2 | ✔️ |
-| Linux GTK WebView   | ✔️ |
-| macOS WKWebView  | ✔️ |
+| WebView           | Status |
+| ----------------- | ------ |
+| Windows WebView2  | ✔️     |
+| Linux GTK WebView | ✔️     |
+| macOS WKWebView   | ✔️     |
 
 ### License
 

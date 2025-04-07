@@ -5,7 +5,7 @@
 // import { Webinix } from "../../mod.ts";
 
 // To import from online `https://deno.land` (Production)
-import { Webinix } from "https://deno.land/x/webinix@2.5.3/mod.ts";
+import { Webinix } from "../../mod.ts";
 
 const myHtml = `<!DOCTYPE html>
 <html>
@@ -71,14 +71,13 @@ const myHtml = `<!DOCTYPE html>
     </body>
 </html>`;
 
-async function checkResult(e: Webinix.Event) {
+function checkResult(e: Webinix.Event) {
   const a = e.arg.number(0); // First argument
   const b = e.arg.number(1); // Second argument
   const res = e.arg.number(2); // Third argument
   if ((a + b) == res) {
     return `Correct: ${a} + ${b} = ${res}`;
-  }
-  else {
+  } else {
     return `Incorrect: ${a} + ${b} != ${res}`;
   }
 }
