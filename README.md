@@ -1,15 +1,8 @@
-## Fork
-
-https://jsr.io/@sigmasd/webinix-deno-fork
-
-Uptodate with commit
-https://github.com/webinix-dev/deno-webinix/commit/d349a44527d129772920f4c097baabf91438f635
-
 <div align="center">
 
 ![Logo](https://raw.githubusercontent.com/webinix-dev/webinix-logo/main/webinix_deno.png)
 
-# Deno-Webinix v2.5.3 (Beta)
+# Deno-Webinix v2.5.4 (Beta)
 
 [last-commit]: https://img.shields.io/github/last-commit/webinix-dev/webinix?style=for-the-badge&logo=github&logoColor=C0CAF5&labelColor=414868
 [release-version]: https://img.shields.io/github/v/tag/webinix-dev/webinix?style=for-the-badge&logo=webtrees&logoColor=C0CAF5&labelColor=414868&color=7664C6
@@ -58,7 +51,8 @@ Latest version: `import { Webinix } from "https://deno.land/x/webinix/mod.ts";`
 ## Minimal Example
 
 ```js
-import { Webinix } from "jsr:@sigmasd/webinix-deno-fork";
+import { Webinix } from "https://deno.land/x/webinix@2.5.4/mod.ts";
+// Or import { Webinix } from "jsr:@webinix/deno-webinix";
 
 const myWindow = new Webinix();
 myWindow.show('<html><script src="webinix.js"></script> Hello World! </html>');
