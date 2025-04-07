@@ -2,10 +2,10 @@
 // deno run --allow-read --allow-write --allow-run --allow-net --allow-ffi custom_web_server.ts
 
 // To import from local (Debugging and Development)
-import { Webinix } from "../../mod.ts";
+// import { Webinix } from "../../mod.ts";
 
 // To import from online `https://deno.land` (Production)
-// import { Webinix } from "https://deno.land/x/webinix@2.5.3/mod.ts";
+import { Webinix } from "https://deno.land/x/webinix@2.5.3/mod.ts";
 
 function allEvents(e: Webinix.Event) {
   /*
