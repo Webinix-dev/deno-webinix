@@ -16,7 +16,7 @@
  * ## Minimal Example
  *
  * ```ts
- * import { Webinix } from "jsr:@sigmasd/webinix-deno-fork";
+ * import { Webinix } from "https://deno.land/x/webinix@2.5.3/mod.ts";
  *
  * const myWindow = new Webinix();
  * myWindow.show("<html><script src=\"webinix.js\"></script> Hello World! </html>");
