@@ -6,16 +6,18 @@ import { BlobReader, BlobWriter, ZipReader } from "jsr:@zip-js/zip-js@2.7.60";
 
 // The Webinix core version to download (Consider using this if not using nightly)
 export const WebinixCoreVersion = "2.5.0-beta.3";
-export const useNightly = true; // Set to false to use WebinixCoreVersion
+export const useNightly = false; // Set to false to use WebinixCoreVersion
 
 // --- Cache Directory Logic ---
 
 /**
- * Gets the appropriate cache directory for the current platform.
- * Creates the directory if it doesn't exist.
- * @returns {Promise<string>} The path to the cache directory.
+ * Gets the base Webinix cache directory for the current platform.
+ * Creates the base directory if it doesn't exist.
+ * This directory will contain version-specific subdirectories.
+ * Example: ~/.cache/deno_webinix (Linux) or ~/Library/Caches/deno_webinix (macOS)
+ * @returns {Promise<string>} The path to the base Webinix cache directory.
  */
-async function getCacheDir(): Promise<string> {
+async function getBaseWebinixCacheDir(): Promise<string> {
   let baseCacheDir: string | undefined;
 
   switch (Deno.build.os) {
@@ -47,24 +49,32 @@ async function getCacheDir(): Promise<string> {
       "Could not determine standard cache directory. Using Deno temporary directory.",
     );
     // Note: Deno's temp dir might be cleaned up unexpectedly.
-    // Consider creating a '.deno_webinix_cache' in the user's home as a better fallback.
-    baseCacheDir = await Deno.makeTempDir({ prefix: "deno_webinix_cache_" });
-    // Or: const home = Deno.env.get("HOME"); baseCacheDir = home ? join(home, '.deno_webinix_cache') : await Deno.makeTempDir(...);
+    // A more persistent fallback might be needed in production scenarios.
+    baseCacheDir = await Deno.makeTempDir({ prefix: "deno_webinix_cache_base_" });
   }
 
-  const webinixCacheDir = join(baseCacheDir, "deno_webinix_libs");
+  // The main directory for all deno_webinix cached libs
+  const webinixBaseCacheDir = join(baseCacheDir, "deno_webinix");
 
-  // Ensure the directory exists
-  await Deno.mkdir(webinixCacheDir, { recursive: true });
+  // Ensure the base directory exists
+  await Deno.mkdir(webinixBaseCacheDir, { recursive: true });
 
-  return webinixCacheDir;
+  return webinixBaseCacheDir;
+}
+
+/**
+ * Determines the specific version directory name based on configuration.
+ * @returns {string} "nightly" or the specific WebinixCoreVersion.
+ */
+function getVersionDirName(): string {
+  return useNightly ? "nightly" : WebinixCoreVersion;
 }
 
 // --- Download and Extraction Logic ---
 
 /**
- * Downloads and extracts the required Webinix library to the cache directory.
- * @param {string} targetLibPath - The final path where the library should exist in the cache.
+ * Downloads and extracts the required Webinix library to the specific version cache directory.
+ * @param {string} targetLibPath - The final path where the library should exist in the cache (e.g., ~/.cache/deno_webinix/2.5.0-beta.3/webinix-2.dll).
  * @param {string} osName - OS identifier (e.g., "windows", "macos", "linux").
  * @param {string} compilerName - Compiler identifier (e.g., "msvc", "clang", "gcc").
  * @param {string} archName - Architecture identifier (e.g., "x64", "arm64").
@@ -79,20 +89,26 @@ async function downloadAndExtractLibrary(
   archName: string,
   libFileNameInZip: string,
 ): Promise<void> {
-  const cacheDir = dirname(targetLibPath); // Get the parent cache directory
+  // The cache directory for this *specific version*
+  const versionCacheDir = dirname(targetLibPath);
 
   // Determine download URL
-  const baseUrl = useNightly
+  const version = getVersionDirName(); // Get "nightly" or the specific version string
+  const baseUrl = version === "nightly"
     ? `https://github.com/webinix-dev/webinix/releases/download/nightly/`
-    : `https://github.com/webinix-dev/webinix/releases/download/${WebinixCoreVersion}/`; // Use defined version if not nightly
+    : `https://github.com/webinix-dev/webinix/releases/download/${version}/`;
 
   const zipFileName = `webinix-${osName}-${compilerName}-${archName}.zip`;
   const zipUrl = `${baseUrl}${zipFileName}`;
-  const tempZipPath = join(cacheDir, `${zipFileName}.download`); // Temporary download path
+  // Temporary download path inside the version-specific cache dir
+  const tempZipPath = join(versionCacheDir, `${zipFileName}.download`);
 
-  console.log(`Downloading Webinix library from ${zipUrl}...`);
+  console.log(`Downloading Webinix library (${version}) from ${zipUrl}...`);
 
   try {
+    // Ensure the target version directory exists before downloading
+    await Deno.mkdir(versionCacheDir, { recursive: true });
+
     // Download the archive
     const res = await fetch(zipUrl);
     if (!res.ok) {
@@ -161,22 +177,40 @@ async function downloadAndExtractLibrary(
 }
 
 /**
- * Ensures the correct Webinix native library exists in the cache, downloading it if necessary.
+ * Ensures the correct Webinix native library exists in the versioned cache, downloading it if necessary.
  * @param {string} baseLibName - The OS-specific library filename (e.g., "webinix-2.dll").
- * @returns {Promise<string>} The full path to the cached library file.
+ * @returns {Promise<string>} The full path to the cached library file (e.g., ~/.cache/deno_webinix/2.5.0-beta.3/webinix-2.dll).
  */
 export async function ensureWebUiLib(baseLibName: string): Promise<string> {
-  const cacheDir = await getCacheDir();
-  const targetLibPath = join(cacheDir, baseLibName);
+  // 1. Get the base cache directory (e.g., ~/.cache/deno_webinix)
+  const baseWebinixCacheDir = await getBaseWebinixCacheDir();
 
-  // 1. Check if the library already exists in the cache
+  // 2. Determine the version-specific subdirectory name ("nightly" or "2.5.0-beta.3")
+  const versionDirName = getVersionDirName();
+
+  // 3. Construct the path to the version-specific cache directory
+  const versionCacheDir = join(baseWebinixCacheDir, versionDirName);
+
+  // 4. Construct the final target path for the library file
+  const targetLibPath = join(versionCacheDir, baseLibName);
+
+  // 5. Ensure the version-specific cache directory exists *before* checking for the file
+  //    (downloadAndExtractLibrary also does this, but doing it here prevents
+  //     an unnecessary download attempt if only the directory is missing)
+  await Deno.mkdir(versionCacheDir, { recursive: true });
+
+  // 6. Check if the library already exists in the cache
   if (await exists(targetLibPath)) {
-    console.log(`Using cached Webinix library: ${targetLibPath}`);
+    console.log(
+      `Using cached Webinix library (${versionDirName}): ${targetLibPath}`,
+    );
     return targetLibPath;
   }
 
-  // 2. Determine download parameters if not cached
-  console.log(`Webinix library not found in cache. Attempting download...`);
+  // 7. Determine download parameters if not cached
+  console.log(
+    `Webinix library (${versionDirName}) not found in cache. Attempting download...`,
+  );
   let osName: string;
   let compilerName: string;
 
@@ -209,16 +243,16 @@ export async function ensureWebUiLib(baseLibName: string): Promise<string> {
   const zipDirName = `webinix-${osName}-${compilerName}-${archName}`;
   const libFileNameInZip = `${zipDirName}/${baseLibName}`; // Path inside the zip
 
-  // 3. Download and extract
+  // 8. Download and extract
   await downloadAndExtractLibrary(
-    targetLibPath,
+    targetLibPath, // Pass the full final path
     osName,
     compilerName,
     archName,
     libFileNameInZip,
   );
 
-  // 4. Return the path
+  // 9. Return the path
   return targetLibPath;
 }
 
