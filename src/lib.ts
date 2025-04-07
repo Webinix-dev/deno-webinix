@@ -1,11 +1,11 @@
 // Deno Webinix
 // FFI (Foreign Function Interface) for webinix.ts
 
-import { libName } from "../deps.ts";
+import { libPath } from "../deps.ts";
 
 export function loadLib() {
   return Deno.dlopen(
-    libName,
+    libPath,
     {
       webinix_wait: {
         // void webinix_wait(void)
