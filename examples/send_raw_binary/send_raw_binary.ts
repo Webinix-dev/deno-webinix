@@ -5,7 +5,7 @@
 // import { Webinix } from "../../mod.ts";
 
 // To import from online `https://deno.land` (Production)
-import { Webinix } from "https://deno.land/x/webinix@2.5.3/mod.ts";
+import { Webinix } from "https://deno.land/x/webinix@2.5.4/mod.ts";
 
 const myHtml = `<!DOCTYPE html>
 <html>

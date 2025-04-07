@@ -44,7 +44,7 @@ is written in Deno using Webinix as the GUI library.
 ## Installation
 
 Specific version:
-`import { Webinix } from "https://deno.land/x/webinix@2.5.3/mod.ts";`
+`import { Webinix } from "https://deno.land/x/webinix@2.5.4/mod.ts";`
 
 Latest version: `import { Webinix } from "https://deno.land/x/webinix/mod.ts";`
 
