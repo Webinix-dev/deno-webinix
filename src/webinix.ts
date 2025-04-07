@@ -27,7 +27,7 @@ let _lib: WebinixLib;
 export class Webinix {
   #window: Usize = 0;
   #lib: WebinixLib;
-  #isFileHandler: Boolean = false;
+  #isFileHandler: boolean = false;
 
   /**
    * Instanciate a new Webinix window.
@@ -376,7 +376,7 @@ export class Webinix {
         const event_number = typeof param_event_number === 'bigint'
           ? Number(param_event_number)
           : Math.trunc(param_event_number);
-        const bind_id = typeof param_bind_id === 'bigint'
+        const _bind_id = typeof param_bind_id === 'bigint'
           ? Number(param_bind_id)
           : Math.trunc(param_bind_id);
 
@@ -463,11 +463,11 @@ export class Webinix {
       {
         // const void* (*handler)(const char *filename, int *length)
         parameters: ["buffer", "pointer"],
-        result: "pointer",
+        result: "void",
       } as const,
       async (
         param_url: Deno.PointerValue,
-        param_length: Deno.PointerValue,
+        _param_length: Deno.PointerValue,
       ) => {
         // Get URL as string
         const url_str :string = param_url !== null ? 
@@ -488,6 +488,9 @@ export class Webinix {
         // a safe Webinix buffer through Webinix API. This Webinix buffer will 
         // be automatically freed by Webinix later.
         const webinix_buffer :Deno.PointerValue = _lib.symbols.webinix_malloc(BigInt(user_response.length));
+        if (!webinix_buffer) {
+          throw new Error("Failed to allocate memory for Webinix buffer");
+        }
 
         // Copy data to C safe buffer
         if (typeof user_response === "string") {
@@ -652,7 +655,7 @@ export class Webinix {
    * 
    * @return - The parent process ID.
    */
-  getParentProcessId(): BigInt {
+  getParentProcessId(): bigint {
     return this.#lib.symbols.webinix_get_parent_process_id(BigInt(this.#window));
   }
 
@@ -711,10 +714,11 @@ export class Webinix {
    * ```
    */
   startServer(content: string): string {
-    return fromCString(this.#lib.symbols.webinix_start_server(
-      BigInt(this.#window),
-      toCString(content),
-    ));
+    const url = this.#lib.symbols.webinix_start_server(
+          BigInt(this.#window),
+          toCString(content),
+      )
+    return  Deno.UnsafePointerView.getCString(url!);
   }
 
   /**
@@ -974,7 +978,7 @@ export class Webinix {
     // The `await _lib.symbols.webinix_wait()` will block `callbackResource`
     // so all events (clicks) will be executed when `webinix_wait()` finish.
     // as a work around, we are going to use `sleep()`.
-    let sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+    const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
     while (1) {
       await sleep(100);
       if (!_lib.symbols.webinix_interface_is_app_running()) {
@@ -1075,7 +1079,7 @@ export class Webinix {
   }
 }
 
-// Deno-lint-ignore no-namespace
+// deno-lint-ignore no-namespace
 export namespace Webinix {
   export type Event = WebinixEvent;
   export enum Browser {
