@@ -65,7 +65,7 @@ import { Webinix } from "https://deno.land/x/webinix/mod.ts";
 import { Webinix } from "jsr:@webinix/deno-webinix";
 
 const myWindow = new Webinix();
-myWindow.show('<html><script src="webinix.js"></script> Hello World! </html>');
+await myWindow.show('<html><script src="webinix.js"></script> Hello World! </html>');
 await Webinix.wait();
 ```
 
