@@ -44,15 +44,25 @@ is written in Deno using Webinix as the GUI library.
 ## Installation
 
 Specific version:
-`import { Webinix } from "https://deno.land/x/webinix@2.5.4/mod.ts";`
 
-Latest version: `import { Webinix } from "https://deno.land/x/webinix/mod.ts";`
+```js
+import { Webinix } from "@webinix/deno-webinix@2.5.4";
+// Or
+import { Webinix } from "https://deno.land/x/webinix@2.5.4/mod.ts";
+```
+
+Latest version:
+
+```js
+import { Webinix } from "jsr:@webinix/deno-webinix";
+// Or
+import { Webinix } from "https://deno.land/x/webinix/mod.ts";
+```
 
 ## Minimal Example
 
 ```js
-import { Webinix } from "https://deno.land/x/webinix@2.5.4/mod.ts";
-// Or import { Webinix } from "jsr:@webinix/deno-webinix";
+import { Webinix } from "jsr:@webinix/deno-webinix";
 
 const myWindow = new Webinix();
 myWindow.show('<html><script src="webinix.js"></script> Hello World! </html>');

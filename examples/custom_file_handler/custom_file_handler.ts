@@ -4,8 +4,8 @@
 // To import from local (Debugging and Development)
 // import { Webinix } from "../../mod.ts";
 
-// To import from online `https://deno.land` (Production)
-import { Webinix } from "https://deno.land/x/webinix@2.5.4/mod.ts";
+// To import from online package registry (Production)
+import { Webinix } from "@webinix/deno-webinix@2.5.4"; // import {Webinix} from "https://deno.land/x/webinix@2.5.4/mod.ts";
 
 // Return HTTP header + file raw binary content
 const getFile = async (
