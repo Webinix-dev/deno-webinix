@@ -27,3 +27,4 @@
  * @license MIT
  */
 export { Webinix } from "./src/webinix.ts";
+export type { BindCallback, Datatypes, WebinixEvent } from "./src/types.ts";

@@ -24,6 +24,11 @@ const windows: Map<Usize, Webinix> = new Map();
 // Global lib entry
 let _lib: WebinixLib;
 
+/**
+ * Represents a Webinix window instance. Allows interaction with a web browser
+ * window, including displaying HTML content, executing JavaScript, and binding
+ * backend functions to UI elements.
+ */
 export class Webinix {
   #window: Usize = 0;
   #lib: WebinixLib;
@@ -1122,14 +1127,27 @@ export class Webinix {
     _lib.symbols.webinix_clean();
   }
 
+  /**
+   * Get the Webinix library version.
+   * @returns The version string (e.g., "2.5.5").
+   */
   static get version(): string {
     return "2.5.6";
   }
 }
 
+/**
+ * Webinix class containing related types and enums.
+ */
 // deno-lint-ignore no-namespace
 export namespace Webinix {
+  /**
+   * Type alias for Webinix event objects.
+   */
   export type Event = WebinixEvent;
+  /**
+   * Enum representing the supported web browsers.
+   */
   export enum Browser {
     NoBrowser = 0, // 0. No web browser
     AnyBrowser, // 1. Default recommended web browser
@@ -1145,6 +1163,9 @@ export namespace Webinix {
     Yandex, // 11. The Yandex Browser
     ChromiumBased, // 12. Any Chromium based browser
   }
+  /**
+   * Enum representing the types of events Webinix can handle.
+   */
   export enum EventType {
     Disconnected = 0, // 0. Window disconnection event
     Connected, // 1. Window connection event
