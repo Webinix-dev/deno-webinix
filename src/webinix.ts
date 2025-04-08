@@ -88,7 +88,7 @@ export class Webinix {
    * const myWindow = new Webinix()
    *
    * // Show the current time
-   * myWindow.show(`<html><script src="webinix.js">/script> <p>It is ${new Date().toLocaleTimeString()}</p> </html>`)
+   * await myWindow.show(`<html><script src="webinix.js">/script> <p>It is ${new Date().toLocaleTimeString()}</p> </html>`)
    *
    * // Show a local file
    * await myWindow.show('list.txt')
@@ -98,7 +98,7 @@ export class Webinix {
    * ```
    */
   async show(content: string) {
-    const status = this.#lib.symbols.webinix_show(
+    const status = await this.#lib.symbols.webinix_show(
       BigInt(this.#window),
       toCString(content),
     );
@@ -133,7 +133,7 @@ export class Webinix {
    * const myWindow = new Webinix()
    *
    * // Show the current time
-   * myWindow.showBrowser(`<html><script src="webinix.js">/script> Hi, This is Chrome! </html>`, Webinix.Browser.Chrome)
+   * await myWindow.showBrowser(`<html><script src="webinix.js">/script> Hi, This is Chrome! </html>`, Webinix.Browser.Chrome)
    *
    * // Show a local file
    * await myWindow.showBrowser('list.txt', Webui.Browser.Chrome)
@@ -331,7 +331,7 @@ export class Webinix {
    * @example
    * ```ts
    * const myWindow = new Webinix();
-   * myWindow.show(
+   * await myWindow.show(
    *  `<html>
    *    <script src="webinix.js"></script>
    *    <button id="myBtn">Foo</button>
@@ -774,9 +774,9 @@ export class Webinix {
    * @return Returns True if showing the WebView window is successful.
    * @example
    * ```ts
-   * myWindow.showWebView("<html>...</html>");
+   * await myWindow.showWebView("<html>...</html>");
    * // or
-   * myWindow.showWebView("index.html");
+   * await myWindow.showWebView("index.html");
    * ```
    */
   showWebView(content: string): boolean {
@@ -1014,7 +1014,7 @@ export class Webinix {
    * @exemple
    * ```ts
    * const myWindow = new Webinix()
-   * myWindow.show(`<html><script src="webinix.js">/script> Your Page... </html>`)
+   * await myWindow.show(`<html><script src="webinix.js">/script> Your Page... </html>`)
    *
    * await Webinix.wait() // Async wait until all windows are closed
    *

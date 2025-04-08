@@ -19,7 +19,7 @@
  * import { Webinix } from "jsr:@webinix/deno-webinix@2.5.6";
  *
  * const myWindow = new Webinix();
- * myWindow.show("<html><script src=\"webinix.js\"></script> Hello World! </html>");
+ * await myWindow.show("<html><script src=\"webinix.js\"></script> Hello World! </html>");
  * await Webinix.wait();
  * ```
  *
