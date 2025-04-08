@@ -16,7 +16,7 @@
  * ## Minimal Example
  *
  * ```ts
- * import { Webinix } from "jsr:@webinix/deno-webinix@2.5.7";
+ * import { Webinix } from "jsr:@webinix/deno-webinix@2.5.8";
  *
  * const myWindow = new Webinix();
  * await myWindow.show("<html><script src=\"webinix.js\"></script> Hello World! </html>");
