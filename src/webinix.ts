@@ -146,7 +146,7 @@ export class Webinix {
     content: string,
     browser: Webinix.Browser,
   ) {
-    const status = this.#lib.symbols.webinix_show_browser(
+    const status = await this.#lib.symbols.webinix_show_browser(
       BigInt(this.#window),
       toCString(content),
       BigInt(browser),
