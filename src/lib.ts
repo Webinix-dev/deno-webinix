@@ -1,13 +1,11 @@
 // Deno Webinix
 // FFI (Foreign Function Interface) for webinix.ts
 
-import {
-  libName,
-} from "../deps.ts";
+import { libPath } from "../deps.ts";
 
 export function loadLib() {
   return Deno.dlopen(
-    libName,
+    libPath,
     {
       webinix_wait: {
         // void webinix_wait(void)
@@ -106,14 +104,14 @@ export function loadLib() {
         result: "void",
       },
       webinix_set_root_folder: {
-          // bool webinix_set_root_folder(size_t window, const char* path)
-          parameters: ["usize", "buffer"],
-          result: "bool",
+        // bool webinix_set_root_folder(size_t window, const char* path)
+        parameters: ["usize", "buffer"],
+        result: "bool",
       },
       webinix_set_tls_certificate: {
-          // bool webinix_set_tls_certificate(const char* certificate_pem, const char* private_key_pem)
-          parameters: ["buffer", "buffer"],
-          result: "bool",
+        // bool webinix_set_tls_certificate(const char* certificate_pem, const char* private_key_pem)
+        parameters: ["buffer", "buffer"],
+        result: "bool",
       },
       webinix_set_kiosk: {
         // void webinix_set_kiosk(size_t window, bool status)

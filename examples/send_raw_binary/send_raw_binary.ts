@@ -4,8 +4,8 @@
 // To import from local (Debugging and Development)
 // import { Webinix } from "../../mod.ts";
 
-// To import from online `https://deno.land` (Production)
-import { Webinix } from "https://deno.land/x/webinix@2.5.3/mod.ts";
+// To import from online package registry (Production)
+import { Webinix } from "@webinix/deno-webinix@2.5.4"; // import {Webinix} from "https://deno.land/x/webinix@2.5.4/mod.ts";
 
 const myHtml = `<!DOCTYPE html>
 <html>
@@ -67,7 +67,7 @@ const myHtml = `<!DOCTYPE html>
     </body>
 </html>`;
 
-async function get_raw_data(e: Webinix.Event) {
+function get_raw_data(e: Webinix.Event) {
   const rawData = new Uint8Array([0x01, 0x02, 0x03]);
   console.log(`Sending ${rawData.byteLength} bytes to UI...`);
   e.window.sendRaw("processRawData", rawData);

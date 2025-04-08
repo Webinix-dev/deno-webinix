@@ -2,12 +2,12 @@
 // deno run --allow-read --allow-write --allow-run --allow-net --allow-ffi custom_web_server.ts
 
 // To import from local (Debugging and Development)
-import { Webinix } from "../../mod.ts";
+// import { Webinix } from "../../mod.ts";
 
-// To import from online `https://deno.land` (Production)
-// import { Webinix } from "https://deno.land/x/webinix@2.5.3/mod.ts";
+// To import from online package registry (Production)
+import { Webinix } from "@webinix/deno-webinix@2.5.4"; // import {Webinix} from "https://deno.land/x/webinix@2.5.4/mod.ts";
 
-async function allEvents(e: Webinix.Event) {
+function allEvents(e: Webinix.Event) {
   /*
     e.window: Webinix;
     e.eventType: Webinix.EventType;
@@ -29,7 +29,7 @@ async function allEvents(e: Webinix.Event) {
       // Mouse click event
       console.log(`Mouse click.`);
       break;
-    case Webinix.EventType.Navigation:
+    case Webinix.EventType.Navigation: {
       // Window navigation event
       const url = e.arg.string(0);
       console.log(`Navigation to '${url}'`);
@@ -38,6 +38,7 @@ async function allEvents(e: Webinix.Event) {
       // We can then control the behaviour of links as needed.
       e.window.navigate(url);
       break;
+    }
     case Webinix.EventType.Callback:
       // Function call event
       console.log(`Function call.`);
@@ -45,7 +46,7 @@ async function allEvents(e: Webinix.Event) {
   }
 }
 
-async function myBackendFunc(e: Webinix.Event) {
+function myBackendFunc(e: Webinix.Event) {
   const a = e.arg.number(0); // First argument
   const b = e.arg.number(1); // Second argument
   const c = e.arg.number(2); // Third argument
@@ -73,6 +74,13 @@ myWindow.bind("exit", () => {
 // use. This means `webinix.js` will be available at:
 // http://localhost:MY_PORT_NUMBER/webinix.js
 myWindow.setPort(8081);
+
+// Start our custom web server using Python script `python simple_web_server.py`.
+// Or using `file-server` module.
+new Deno.Command("deno", {
+  args: ["-RNS", "jsr:@std/http/file-server", "-p", "8080"],
+}).spawn();
+await new Promise((r) => setTimeout(r, 500));
 
 // Show a new window and point to our custom web server
 // Assuming the custom web server is running on port
