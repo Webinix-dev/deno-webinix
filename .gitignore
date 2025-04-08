@@ -37,6 +37,7 @@ src/webinix-linux-gcc-arm64/
 # IDE
 .vscode/
 .vs/
+.zed/
 
 # Visual Studio
 .idea/
