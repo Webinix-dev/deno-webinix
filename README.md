@@ -46,7 +46,7 @@ is written in Deno using Webinix as the GUI library.
 Specific version:
 
 ```js
-import { Webinix } from "@webinix/deno-webinix@2.5.4";
+import { Webinix } from "jsr:@webinix/deno-webinix@2.5.4";
 // Or
 import { Webinix } from "https://deno.land/x/webinix@2.5.4/mod.ts";
 ```
