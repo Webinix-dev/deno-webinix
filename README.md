@@ -2,7 +2,7 @@
 
 ![Logo](https://raw.githubusercontent.com/webinix-dev/webinix-logo/main/webinix_deno.png)
 
-# Deno-Webinix v2.5.6 (Beta)
+# Deno-Webinix v2.5.7 (Beta)
 
 [last-commit]: https://img.shields.io/github/last-commit/webinix-dev/webinix?style=for-the-badge&logo=github&logoColor=C0CAF5&labelColor=414868
 [release-version]: https://img.shields.io/github/v/tag/webinix-dev/webinix?style=for-the-badge&logo=webtrees&logoColor=C0CAF5&labelColor=414868&color=7664C6
@@ -46,9 +46,9 @@ is written in Deno using Webinix as the GUI library.
 Specific version:
 
 ```js
-import { Webinix } from "jsr:@webinix/deno-webinix@2.5.6";
+import { Webinix } from "jsr:@webinix/deno-webinix@2.5.7";
 // Or
-import { Webinix } from "https://deno.land/x/webinix@2.5.6/mod.ts";
+import { Webinix } from "https://deno.land/x/webinix@2.5.7/mod.ts";
 ```
 
 Latest version:
