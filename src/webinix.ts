@@ -1,5 +1,5 @@
 /*
-  Webinix Deno 2.5.6
+  Webinix Deno 2.5.7
   http://webinix.me
   https://github.com/webinix-dev/deno-webinix
   Copyright (c) 2020-2025 Hassan Draga.
@@ -1132,7 +1132,7 @@ export class Webinix {
    * @returns The version string (e.g., "2.5.5").
    */
   static get version(): string {
-    return "2.5.6";
+    return "2.5.7";
   }
 }
 
