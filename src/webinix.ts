@@ -98,7 +98,7 @@ export class Webinix {
    * ```
    */
   async show(content: string) {
-    const status = this.#lib.symbols.webinix_show(
+    const status = await this.#lib.symbols.webinix_show(
       BigInt(this.#window),
       toCString(content),
     );
