@@ -5,7 +5,7 @@
 // import { Webinix } from "../../mod.ts";
 
 // To import from online package registry (Production)
-import { Webinix } from "jsr:@webinix/deno-webinix@2.5.7"; // import {Webinix} from "https://deno.land/x/webinix@2.5.7/mod.ts";
+import { Webinix } from "jsr:@webinix/deno-webinix@2.5.8"; // import {Webinix} from "https://deno.land/x/webinix@2.5.8/mod.ts";
 
 function allEvents(e: Webinix.Event) {
   /*
