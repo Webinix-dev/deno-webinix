@@ -19,13 +19,11 @@ const symbols = {
     // bool webinix_show(size_t window, const char* content)
     parameters: ["usize", "buffer"],
     result: "bool",
-    nonblocking: true,
   },
   webinix_show_browser: {
     // bool webinix_show_browser(size_t window, const char* content, size_t browser)
     parameters: ["usize", "buffer", "usize"],
     result: "bool",
-    nonblocking: true,
   },
   webinix_interface_bind: {
     // size_t webinix_interface_bind(size_t window, const char* element, void (*func)(size_t, size_t, char*, size_t, size_t));
