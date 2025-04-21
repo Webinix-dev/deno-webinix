@@ -57,7 +57,7 @@ myWindow.bind("exit", () => {
 myWindow.setFileHandler(myFileHandler);
 
 // Show the window
-await myWindow.show("index.html");
+await myWindow.showBrowser("index.html", Webinix.Browser.AnyBrowser);
 
 // Wait until all windows get closed
 await Webinix.wait();
